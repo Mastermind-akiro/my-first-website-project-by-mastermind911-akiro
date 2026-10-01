@@ -5,11 +5,18 @@
 
 const contractSelect = document.getElementById("contract");
 const digitInput = document.getElementById("digit");
+const stakeInput = document.getElementById("stake");
+
 const matchButton = document.querySelector(".match-btn");
 const differButton = document.querySelector(".differ-btn");
 
+const systemMessage = document.getElementById("systemMessage");
 
-// Change buttons when contract changes
+
+// ========================================
+// CHANGE CONTRACT
+// ========================================
+
 function updateContract() {
 
     const contract = contractSelect.value;
@@ -48,28 +55,47 @@ function updateContract() {
 }
 
 
-// Listen for dropdown changes
 contractSelect.addEventListener("change", updateContract);
 
-
-// Run when page loads
 updateContract();
 
 
 // ========================================
-// BUTTON TEST
+// SYSTEM MESSAGE
+// ========================================
+
+function showTradeMessage(action) {
+
+    const contract = contractSelect.value;
+    const digit = digitInput.value;
+    const stake = stakeInput.value;
+
+    systemMessage.innerHTML = `
+        <p>CONTRACT: ${contract}</p>
+        <p>PREDICTION: ${action}</p>
+        ${digitInput.style.display !== "none"
+            ? `<p>DIGIT: ${digit}</p>`
+            : ""}
+        <p>STAKE: $${stake}</p>
+        <p>STATUS: READY</p>
+    `;
+}
+
+
+// ========================================
+// TRADE BUTTONS
 // ========================================
 
 matchButton.addEventListener("click", function () {
 
-    console.log("Selected:", matchButton.textContent);
+    showTradeMessage(matchButton.textContent);
 
 });
 
 
 differButton.addEventListener("click", function () {
 
-    console.log("Selected:", differButton.textContent);
+    showTradeMessage(differButton.textContent);
 
 });
 
