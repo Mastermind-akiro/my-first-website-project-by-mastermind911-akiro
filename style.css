@@ -294,6 +294,30 @@ body {
     background: #151b22;
     border-left: 2px solid #aeb8c3;
 }
+/* ================================
+   SYSTEM MESSAGE
+================================ */
+
+.system-message-panel {
+    border-left: 2px solid #aeb8c3 !important;
+}
+
+#systemMessage {
+    background: #080c11;
+    border: 1px solid #202932;
+    padding: 18px;
+    min-height: 100px;
+
+    font-size: 12px;
+    letter-spacing: 1px;
+    line-height: 1.8;
+
+    color: #aeb8c3;
+}
+
+#systemMessage p {
+    margin: 3px 0;
+}
 
 /* ================================
    QUESTS
