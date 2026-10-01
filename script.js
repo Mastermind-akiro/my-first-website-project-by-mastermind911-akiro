@@ -11,6 +11,9 @@ const matchButton = document.querySelector(".match-btn");
 const differButton = document.querySelector(".differ-btn");
 
 const systemMessage = document.getElementById("systemMessage");
+const tradeHistory = document.getElementById("tradeHistory");
+
+let tradeNumber = 0;
 
 
 // ========================================
@@ -83,20 +86,54 @@ function showTradeMessage(action) {
 
 
 // ========================================
+// TRADE HISTORY
+// ========================================
+
+function addTradeToHistory(action) {
+
+    tradeNumber++;
+
+    const contract = contractSelect.value;
+    const digit = digitInput.value;
+    const stake = stakeInput.value;
+
+    const row = document.createElement("div");
+
+    row.className = "history-row";
+
+    row.innerHTML = `
+        <span>${tradeNumber}</span>
+        <span>${contract}</span>
+        <span>${action}</span>
+        <span>${digitInput.style.display !== "none" ? digit : "—"}</span>
+        <span>$${stake}</span>
+    `;
+
+    tradeHistory.appendChild(row);
+}
+
+
+// ========================================
 // TRADE BUTTONS
 // ========================================
 
 matchButton.addEventListener("click", function () {
 
-    showTradeMessage(matchButton.textContent);
+    const action = matchButton.textContent;
 
+    showTradeMessage(action);
+
+    addTradeToHistory(action);
 });
 
 
 differButton.addEventListener("click", function () {
 
-    showTradeMessage(differButton.textContent);
+    const action = differButton.textContent;
 
+    showTradeMessage(action);
+
+    addTradeToHistory(action);
 });
 
 
