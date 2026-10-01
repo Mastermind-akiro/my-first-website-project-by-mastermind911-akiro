@@ -1,38 +1,245 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jinwoo System</title>
+
+    <title>System Terminal</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <header>
-        <h1>JINWOO SYSTEM</h1>
+    <header class="top-bar">
 
-        <nav>
-            <a href="#">Home</a>
-            <a href="#">System</a>
-            <a href="#">Status</a>
-        </nav>
+        <div>
+            <h1>◈ SYSTEM TERMINAL</h1>
+            <p>TRADING & CLASS RANKING SYSTEM</p>
+        </div>
+
+        <div class="player-info">
+            <span>PLAYER: A-01</span>
+            <span>RANK: #07</span>
+            <span>LEVEL: 07</span>
+        </div>
+
     </header>
 
-    <main>
-        <div class="system-box">
-            <h2>WELCOME, PLAYER</h2>
 
-            <p>System online...</p>
-            <p>Preparing your next mission.</p>
+    <main class="dashboard">
 
-            <button onclick="startSystem()">START SYSTEM</button>
+        <!-- ACCOUNT -->
+        <section class="account-panel">
 
-            <p id="message"></p>
-        </div>
+            <h2>ACCOUNT STATUS</h2>
+
+            <div class="account-grid">
+
+                <div>
+                    <span>BALANCE</span>
+                    <strong>$8.35</strong>
+                </div>
+
+                <div>
+                    <span>PROFIT</span>
+                    <strong>+$2.35</strong>
+                </div>
+
+                <div>
+                    <span>WIN RATE</span>
+                    <strong>68.4%</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- TRADING AREA -->
+        <section class="trading-area">
+
+            <!-- CHART -->
+            <div class="chart-panel">
+
+                <div class="panel-header">
+                    <h2>PRICE CHART</h2>
+                    <span>VOLATILITY 100</span>
+                </div>
+
+                <div class="chart">
+                    <div class="chart-line"></div>
+                </div>
+
+            </div>
+
+
+            <!-- CONTRACT -->
+            <div class="contract-panel">
+
+                <h2>CONTRACT SYSTEM</h2>
+
+                <label for="contract">CONTRACT TYPE</label>
+
+                <select id="contract">
+                    <option>Matches / Differs</option>
+                    <option>Even / Odd</option>
+                    <option>Over / Under</option>
+                    <option>Rise / Fall</option>
+                </select>
+
+
+                <label for="digit">DIGIT</label>
+
+                <input
+                    type="number"
+                    id="digit"
+                    min="0"
+                    max="9"
+                    value="7"
+                >
+
+
+                <label for="stake">STAKE</label>
+
+                <input
+                    type="number"
+                    id="stake"
+                    min="0.35"
+                    step="0.01"
+                    value="1.00"
+                >
+
+
+                <div class="trade-buttons">
+
+                    <button class="match-btn">
+                        MATCH
+                    </button>
+
+                    <button class="differ-btn">
+                        DIFFER
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SYSTEM ANALYSIS -->
+        <section class="analysis-panel">
+
+            <h2>SYSTEM ANALYSIS</h2>
+
+            <div class="stats-grid">
+
+                <div class="stat">
+                    <span>DISCIPLINE</span>
+                    <strong>91%</strong>
+                    <div class="progress">
+                        <div style="width:91%"></div>
+                    </div>
+                </div>
+
+                <div class="stat">
+                    <span>RISK CONTROL</span>
+                    <strong>82%</strong>
+                    <div class="progress">
+                        <div style="width:82%"></div>
+                    </div>
+                </div>
+
+                <div class="stat">
+                    <span>CONSISTENCY</span>
+                    <strong>74%</strong>
+                    <div class="progress">
+                        <div style="width:74%"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RANKING -->
+        <section class="ranking-panel">
+
+            <h2>CLASS RANKING</h2>
+
+            <div class="ranking-row">
+                <span>#01</span>
+                <span>A-07</span>
+                <strong>96.8</strong>
+            </div>
+
+            <div class="ranking-row">
+                <span>#02</span>
+                <span>A-03</span>
+                <strong>94.2</strong>
+            </div>
+
+            <div class="ranking-row">
+                <span>#03</span>
+                <span>A-11</span>
+                <strong>91.7</strong>
+            </div>
+
+            <div class="ranking-row current-player">
+                <span>#07</span>
+                <span>A-01 — YOU</span>
+                <strong>86.4</strong>
+            </div>
+
+        </section>
+
+
+        <!-- QUESTS -->
+        <section class="quest-panel">
+
+            <h2>◈ DAILY QUEST</h2>
+
+            <p>✓ Complete trading plan</p>
+
+            <p>□ Complete 3 planned trades <b>+100 XP</b></p>
+
+            <p>□ Record every trade <b>+150 XP</b></p>
+
+            <div class="xp">
+
+                <span>XP 2,450 / 3,000</span>
+
+                <div class="xp-bar">
+                    <div></div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <footer>
+
+            <span>SYSTEM STATUS: ONLINE</span>
+
+            <nav>
+                <a href="#">RANKING</a>
+                <a href="#">STATS</a>
+                <a href="#">JOURNAL</a>
+                <a href="#">QUESTS</a>
+                <a href="#">LEVEL</a>
+            </nav>
+
+        </footer>
+
     </main>
+
 
     <script src="script.js"></script>
 
 </body>
 </html>
+```
