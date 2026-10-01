@@ -2,11 +2,15 @@
     box-sizing: border-box;
 }
 
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     color: white;
-    background: #050b14;
+    background-image: url("jin%20woo.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     min-height: 100vh;
 }
 
