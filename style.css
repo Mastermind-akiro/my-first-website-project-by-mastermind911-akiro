@@ -1,53 +1,394 @@
+```css
+/* ================================
+   SYSTEM TERMINAL
+   Jinwoo × Class Ranking
+================================ */
+
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-
 body {
-    margin: 0;
+    background: #080b10;
+    color: #d9e0e8;
     font-family: Arial, sans-serif;
-    color: white;
-    background-image: url("jin%20woo.jpg");
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
     min-height: 100vh;
 }
 
-header {
-    background: rgba(5, 20, 35, 0.95);
-    padding: 20px;
+/* ================================
+   TOP BAR
+================================ */
+
+.top-bar {
+    min-height: 90px;
+    padding: 20px 35px;
+    border-bottom: 1px solid #27303a;
+    background: #0d1117;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #00bfff;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 24px;
+.top-bar h1 {
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: #ffffff;
 }
 
-nav a {
-    color: white;
-    text-decoration: none;
-    margin-left: 20px;
+.top-bar p {
+    margin-top: 6px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #707b88;
 }
 
-main {
-    min-height: calc(100vh - 80px);
+.player-info {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+    gap: 25px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: #9ca7b3;
 }
 
-.system-box {
-    width: 90%;
-    max-width: 500px;
-    padding: 40px;
-    text-align: center;
-    background: rgba(10, 30, 50, 0.9);
-    border: 2px solid #00bfff;
-    border-radius: 15px;
-    box-shadow
+/* ================================
+   DASHBOARD
+================================ */
+
+.dashboard {
+    width: 94%;
+    max-width: 1400px;
+    margin: 30px auto;
+
+    display: grid;
+    gap: 18px;
+}
+
+/* ================================
+   GENERAL PANELS
+================================ */
+
+.dashboard section {
+    background: #0d1218;
+    border: 1px solid #242d36;
+    padding: 22px;
+}
+
+.dashboard h2 {
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: #aeb8c3;
+    margin-bottom: 20px;
+}
+
+/* ================================
+   ACCOUNT
+================================ */
+
+.account-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.account-grid div {
+    border: 1px solid #202932;
+    background: #090d12;
+    padding: 18px;
+}
+
+.account-grid span,
+.stat span {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #6f7b88;
+    margin-bottom: 8px;
+}
+
+.account-grid strong {
+    font-size: 22px;
+    color: #f1f4f7;
+}
+
+/* ================================
+   TRADING AREA
+================================ */
+
+.trading-area {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 18px;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+/* ================================
+   CHART
+================================ */
+
+.chart-panel {
+    min-height: 400px;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.panel-header span {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #66717d;
+}
+
+.chart {
+    height: 320px;
+    position: relative;
+    overflow: hidden;
+
+    background:
+        linear-gradient(#161d25 1px, transparent 1px),
+        linear-gradient(90deg, #161d25 1px, transparent 1px);
+
+    background-size: 50px 50px;
+
+    border: 1px solid #202932;
+}
+
+/* Fake chart line */
+
+.chart-line {
+    position: absolute;
+
+    width: 700px;
+    height: 180px;
+
+    left: 30px;
+    top: 90px;
+
+    border-top: 2px solid #b9c4cf;
+
+    transform: rotate(-8deg);
+}
+
+/* ================================
+   CONTRACT
+================================ */
+
+.contract-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.contract-panel label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #6f7b88;
+    margin: 10px 0 7px;
+}
+
+.contract-panel select,
+.contract-panel input {
+    width: 100%;
+    padding: 13px;
+
+    background: #080c11;
+    color: #dce3ea;
+
+    border: 1px solid #2a333d;
+    outline: none;
+}
+
+.contract-panel select:focus,
+.contract-panel input:focus {
+    border-color: #6e7b88;
+}
+
+/* ================================
+   TRADE BUTTONS
+================================ */
+
+.trade-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+
+    margin-top: 25px;
+}
+
+.trade-buttons button {
+    padding: 15px;
+
+    border: 1px solid #4a5662;
+    background: #111820;
+
+    color: #dce3ea;
+
+    cursor: pointer;
+
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.trade-buttons button:hover {
+    background: #1a222b;
+}
+
+/* ================================
+   SYSTEM ANALYSIS
+================================ */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.stat strong {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.progress,
+.xp-bar {
+    width: 100%;
+    height: 6px;
+    background: #1b222a;
+    overflow: hidden;
+}
+
+.progress div,
+.xp-bar div {
+    height: 100%;
+    background: #aab4be;
+}
+
+/* ================================
+   CLASS RANKING
+================================ */
+
+.ranking-panel {
+    padding-bottom: 10px !important;
+}
+
+.ranking-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 100px;
+
+    padding: 15px;
+
+    border-top: 1px solid #202832;
+
+    font-size: 13px;
+}
+
+.ranking-row strong {
+    text-align: right;
+}
+
+.current-player {
+    background: #151b22;
+    border-left: 2px solid #aeb8c3;
+}
+
+/* ================================
+   QUESTS
+================================ */
+
+.quest-panel p {
+    padding: 10px 0;
+    border-bottom: 1px solid #1b232c;
+
+    font-size: 13px;
+}
+
+.quest-panel b {
+    float: right;
+    color: #9ba6b2;
+}
+
+.xp {
+    margin-top: 20px;
+}
+
+.xp span {
+    display: block;
+    margin-bottom: 8px;
+
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #737e8a;
+}
+
+/* ================================
+   FOOTER
+================================ */
+
+footer {
+    padding: 20px 5px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    font-size: 10px;
+    letter-spacing: 2px;
+
+    color: #626d79;
+}
+
+footer nav {
+    display: flex;
+    gap: 20px;
+}
+
+footer a {
+    color: #78838e;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #ffffff;
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 800px) {
+
+    .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .player-info {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .account-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .trading-area {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+    }
+}
+```
+
