@@ -2,7 +2,11 @@
 // SYSTEM TERMINAL
 // ========================================
 
+
+// ========================================
 // ELEMENTS
+// ========================================
+
 const contractSelect = document.getElementById("contract");
 const digitInput = document.getElementById("digit");
 const stakeInput = document.getElementById("stake");
@@ -33,24 +37,70 @@ let losingTrades = 0;
 
 
 // ========================================
+// SYSTEM / PLAYER DATA
+// ========================================
+
+let level = 7;
+
+let xp = 2450;
+let xpRequired = 3000;
+
+let classScore = 86.4;
+
+
+// ========================================
 // ACCOUNT DISPLAY
 // ========================================
 
-const balanceDisplay = document.querySelector(
-    ".account-grid div:nth-child(1) strong"
-);
+const balanceDisplay =
+    document.querySelector(
+        ".account-grid div:nth-child(1) strong"
+    );
 
-const profitDisplay = document.querySelector(
-    ".account-grid div:nth-child(2) strong"
-);
+const profitDisplay =
+    document.querySelector(
+        ".account-grid div:nth-child(2) strong"
+    );
 
-const winRateDisplay = document.querySelector(
-    ".account-grid div:nth-child(3) strong"
-);
+const winRateDisplay =
+    document.querySelector(
+        ".account-grid div:nth-child(3) strong"
+    );
 
 
 // ========================================
-// UPDATE ACCOUNT DISPLAY
+// XP DISPLAY
+// ========================================
+
+const xpText =
+    document.querySelector(".xp span");
+
+const xpBar =
+    document.querySelector(".xp-bar div");
+
+
+// ========================================
+// LEVEL DISPLAY
+// ========================================
+
+const levelDisplay =
+    document.querySelector(
+        ".player-info span:nth-child(3)"
+    );
+
+
+// ========================================
+// CLASS SCORE DISPLAY
+// ========================================
+
+const classScoreDisplay =
+    document.querySelector(
+        ".current-player strong"
+    );
+
+
+// ========================================
+// UPDATE ACCOUNT
 // ========================================
 
 function updateAccountDisplay() {
@@ -73,6 +123,7 @@ function updateAccountDisplay() {
 
     let winRate = 0;
 
+
     if (totalTrades > 0) {
 
         winRate =
@@ -86,50 +137,105 @@ function updateAccountDisplay() {
 
 
 // ========================================
+// UPDATE XP
+// ========================================
+
+function updateXPDisplay() {
+
+    xpText.textContent =
+        `XP ${xp.toLocaleString()} / ${xpRequired.toLocaleString()}`;
+
+
+    const percentage =
+        (xp / xpRequired) * 100;
+
+
+    xpBar.style.width =
+        `${percentage}%`;
+}
+
+
+// ========================================
+// UPDATE LEVEL
+// ========================================
+
+function updateLevelDisplay() {
+
+    levelDisplay.textContent =
+        `LEVEL: ${String(level).padStart(2, "0")}`;
+}
+
+
+// ========================================
+// UPDATE CLASS SCORE
+// ========================================
+
+function updateClassScoreDisplay() {
+
+    classScoreDisplay.textContent =
+        classScore.toFixed(1);
+}
+
+
+// ========================================
 // CONTRACT SYSTEM
 // ========================================
 
 function updateContract() {
 
-    const contract = contractSelect.value;
+    const contract =
+        contractSelect.value;
 
 
     if (contract === "Matches / Differs") {
 
-        digitInput.style.display = "block";
+        digitInput.style.display =
+            "block";
 
-        matchButton.textContent = "MATCH";
-        differButton.textContent = "DIFFER";
+        matchButton.textContent =
+            "MATCH";
 
+        differButton.textContent =
+            "DIFFER";
     }
 
 
     else if (contract === "Even / Odd") {
 
-        digitInput.style.display = "none";
+        digitInput.style.display =
+            "none";
 
-        matchButton.textContent = "EVEN";
-        differButton.textContent = "ODD";
+        matchButton.textContent =
+            "EVEN";
 
+        differButton.textContent =
+            "ODD";
     }
 
 
     else if (contract === "Over / Under") {
 
-        digitInput.style.display = "block";
+        digitInput.style.display =
+            "block";
 
-        matchButton.textContent = "OVER";
-        differButton.textContent = "UNDER";
+        matchButton.textContent =
+            "OVER";
 
+        differButton.textContent =
+            "UNDER";
     }
 
 
     else if (contract === "Rise / Fall") {
 
-        digitInput.style.display = "none";
+        digitInput.style.display =
+            "none";
 
-        matchButton.textContent = "RISE";
-        differButton.textContent = "FALL";
+        matchButton.textContent =
+            "RISE";
+
+        differButton.textContent =
+            "FALL";
     }
 }
 
@@ -184,6 +290,7 @@ function showTradeMessage(action) {
 function addTradeToHistory(action) {
 
     tradeNumber++;
+
 
     const contract =
         contractSelect.value;
@@ -263,6 +370,83 @@ differButton.addEventListener(
 
 
 // ========================================
+// WIN XP
+// ========================================
+
+function rewardWinXP() {
+
+    xp += 100;
+
+    classScore += 0.5;
+
+
+    checkLevelUp();
+
+    updateXPDisplay();
+
+    updateLevelDisplay();
+
+    updateClassScoreDisplay();
+}
+
+
+// ========================================
+// LOSS XP
+// ========================================
+
+function applyLossXP() {
+
+    xp -= 25;
+
+    classScore -= 0.2;
+
+
+    if (xp < 0) {
+
+        xp = 0;
+    }
+
+
+    if (classScore < 0) {
+
+        classScore = 0;
+    }
+
+
+    updateXPDisplay();
+
+    updateClassScoreDisplay();
+}
+
+
+// ========================================
+// LEVEL UP
+// ========================================
+
+function checkLevelUp() {
+
+    while (xp >= xpRequired) {
+
+        xp -= xpRequired;
+
+        level++;
+
+        xpRequired += 500;
+
+
+        systemMessage.innerHTML = `
+
+            <p>◈ SYSTEM LEVEL UP</p>
+
+            <p>NEW LEVEL: ${level}</p>
+
+            <p>XP REQUIREMENT INCREASED</p>
+        `;
+    }
+}
+
+
+// ========================================
 // RESULT SYSTEM
 // ========================================
 
@@ -293,7 +477,6 @@ function updateLatestTradeResult(result) {
 
     const resultCell =
         latestRow.children[5];
-
 
     const profitCell =
         latestRow.children[6];
@@ -348,6 +531,8 @@ function updateLatestTradeResult(result) {
 
         winningTrades++;
 
+
+        rewardWinXP();
     }
 
 
@@ -364,6 +549,9 @@ function updateLatestTradeResult(result) {
         totalProfit -= stake;
 
         losingTrades++;
+
+
+        applyLossXP();
     }
 
 
@@ -426,6 +614,18 @@ function updateLatestTradeResult(result) {
         </p>
 
         <p>
+            XP:
+            ${xp.toLocaleString()}
+            /
+            ${xpRequired.toLocaleString()}
+        </p>
+
+        <p>
+            CLASS SCORE:
+            ${classScore.toFixed(1)}
+        </p>
+
+        <p>
             STATUS: COMPLETE
         </p>
     `;
@@ -463,6 +663,12 @@ lossButton.addEventListener(
 // ========================================
 
 updateAccountDisplay();
+
+updateXPDisplay();
+
+updateLevelDisplay();
+
+updateClassScoreDisplay();
 
 
 // ========================================
