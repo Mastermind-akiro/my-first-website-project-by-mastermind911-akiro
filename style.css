@@ -293,7 +293,51 @@ body {
 .current-player {
     background: #151b22;
     border-left: 2px solid #aeb8c3;
+}/* ================================
+   TRADE HISTORY
+================================ */
+
+.history-panel {
+    overflow-x: auto;
 }
+
+.history-header,
+.history-row {
+    min-width: 700px;
+
+    display: grid;
+    grid-template-columns: 40px 2fr 1fr 70px 90px 100px;
+
+    gap: 15px;
+    align-items: center;
+}
+
+.history-header {
+    padding: 12px 15px;
+
+    background: #080c11;
+    border: 1px solid #202932;
+
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #6f7b88;
+}
+
+.history-row {
+    padding: 14px 15px;
+
+    border-left: 1px solid #202932;
+    border-right: 1px solid #202932;
+    border-bottom: 1px solid #202932;
+
+    font-size: 12px;
+    color: #c5ced7;
+}
+
+.history-row span:last-child {
+    font-weight: bold;
+}
+
 /* ================================
    SYSTEM MESSAGE
 ================================ */
