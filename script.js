@@ -1,8 +1,8 @@
 // ========================================
 // SYSTEM TERMINAL
-// CONTRACT SYSTEM
 // ========================================
 
+// CONTRACT CONTROLS
 const contractSelect = document.getElementById("contract");
 const digitInput = document.getElementById("digit");
 const stakeInput = document.getElementById("stake");
@@ -10,14 +10,17 @@ const stakeInput = document.getElementById("stake");
 const matchButton = document.querySelector(".match-btn");
 const differButton = document.querySelector(".differ-btn");
 
+// SYSTEM MESSAGE
 const systemMessage = document.getElementById("systemMessage");
+
+// TRADE HISTORY
 const tradeHistory = document.getElementById("tradeHistory");
 
 let tradeNumber = 0;
 
 
 // ========================================
-// CHANGE CONTRACT
+// CONTRACT SYSTEM
 // ========================================
 
 function updateContract() {
@@ -58,8 +61,10 @@ function updateContract() {
 }
 
 
+// Listen for contract changes
 contractSelect.addEventListener("change", updateContract);
 
+// Set correct buttons when page opens
 updateContract();
 
 
@@ -80,7 +85,7 @@ function showTradeMessage(action) {
             ? `<p>DIGIT: ${digit}</p>`
             : ""}
         <p>STAKE: $${stake}</p>
-        <p>STATUS: READY</p>
+        <p>STATUS: PENDING</p>
     `;
 }
 
@@ -97,8 +102,6 @@ function addTradeToHistory(action) {
     const digit = digitInput.value;
     const stake = stakeInput.value;
 
-    const result = "PENDING";
-
     const row = document.createElement("div");
 
     row.className = "history-row";
@@ -109,7 +112,7 @@ function addTradeToHistory(action) {
         <span>${action}</span>
         <span>${digitInput.style.display !== "none" ? digit : "—"}</span>
         <span>$${stake}</span>
-        <span>${result}</span>
+        <span>PENDING</span>
     `;
 
     tradeHistory.appendChild(row);
@@ -117,7 +120,7 @@ function addTradeToHistory(action) {
 
 
 // ========================================
-// TRADE BUTTONS
+// MATCH / EVEN / OVER / RISE BUTTON
 // ========================================
 
 matchButton.addEventListener("click", function () {
@@ -130,6 +133,10 @@ matchButton.addEventListener("click", function () {
 });
 
 
+// ========================================
+// DIFFER / ODD / UNDER / FALL BUTTON
+// ========================================
+
 differButton.addEventListener("click", function () {
 
     const action = differButton.textContent;
@@ -139,5 +146,9 @@ differButton.addEventListener("click", function () {
     addTradeToHistory(action);
 });
 
+
+// ========================================
+// SYSTEM START
+// ========================================
 
 console.log("SYSTEM TERMINAL ONLINE");
