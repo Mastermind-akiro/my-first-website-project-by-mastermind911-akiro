@@ -97,34 +97,7 @@ function addTradeToHistory(action) {
     const digit = digitInput.value;
     const stake = stakeInput.value;
 
-    function addTradeToHistory(action) {
-
-    tradeNumber++;
-
-    const contract = contractSelect.value;
-    const digit = digitInput.value;
-    const stake = stakeInput.value;
-
-    const results = ["WIN", "LOSS", "PENDING"];
-
-    const result =
-        results[Math.floor(Math.random() * results.length)];
-
-    const row = document.createElement("div");
-
-    row.className = "history-row";
-
-    row.innerHTML = `
-        <span>${tradeNumber}</span>
-        <span>${contract}</span>
-        <span>${action}</span>
-        <span>${digitInput.style.display !== "none" ? digit : "—"}</span>
-        <span>$${stake}</span>
-        <span>${result}</span>
-    `;
-
-    tradeHistory.appendChild(row);
-}
+    const result = "PENDING";
 
     const row = document.createElement("div");
 
