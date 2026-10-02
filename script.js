@@ -147,6 +147,48 @@ differButton.addEventListener("click", function () {
 
     addTradeToHistory(action);
 });
+// ========================================
+// TEST RESULT SYSTEM
+// ========================================
+
+function updateLatestTradeResult(result) {
+
+    const rows = tradeHistory.querySelectorAll(".history-row");
+
+    if (rows.length === 0) {
+        return;
+    }
+
+    const latestRow = rows[rows.length - 1];
+
+    const resultCell = latestRow.children[5];
+
+    if (resultCell.textContent !== "PENDING") {
+        return;
+    }
+
+    resultCell.textContent = result;
+
+    systemMessage.innerHTML = `
+        <p>TRADE #${tradeNumber}</p>
+        <p>RESULT: ${result}</p>
+        <p>STATUS: COMPLETE</p>
+    `;
+}
+
+
+// MARK WIN
+winButton.addEventListener("click", function () {
+
+    updateLatestTradeResult("WIN");
+
+});
+
+
+// MARK LOSS
+lossButton.addEventListener("click", function () {
+
+    updateLatestTradeResult("LOSS");
 
 
 // ========================================
