@@ -15,6 +15,8 @@ const systemMessage = document.getElementById("systemMessage");
 
 // TRADE HISTORY
 const tradeHistory = document.getElementById("tradeHistory");
+const winButton = document.getElementById("winButton");
+const lossButton = document.getElementById("lossButton");
 
 let tradeNumber = 0;
 
