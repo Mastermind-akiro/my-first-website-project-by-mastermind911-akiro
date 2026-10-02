@@ -1,3 +1,97 @@
+// ========================================
+// SYSTEM TERMINAL
+// ========================================
+
+
+// ========================================
+// ELEMENTS
+// ========================================
+
+const contractSelect = document.getElementById("contract");
+const digitInput = document.getElementById("digit");
+const stakeInput = document.getElementById("stake");
+
+const matchButton = document.querySelector(".match-btn");
+const differButton = document.querySelector(".differ-btn");
+
+const systemMessage = document.getElementById("systemMessage");
+const tradeHistory = document.getElementById("tradeHistory");
+
+const winButton = document.getElementById("winButton");
+const lossButton = document.getElementById("lossButton");
+
+
+// ========================================
+// ACCOUNT DATA
+// ========================================
+
+let balance = 8.35;
+let startingBalance = 8.35;
+
+let totalProfit = 0;
+
+let tradeNumber = 0;
+let totalTrades = 0;
+let winningTrades = 0;
+let losingTrades = 0;
+
+
+// ========================================
+// PLAYER DATA
+// ========================================
+
+let level = 7;
+
+let xp = 2450;
+let xpRequired = 3000;
+
+let classScore = 86.4;
+
+
+// ========================================
+// SYSTEM ANALYSIS
+// ========================================
+
+let discipline = 91;
+let riskControl = 82;
+let consistency = 74;
+
+
+// ========================================
+// ACCOUNT DISPLAY
+// ========================================
+
+const balanceDisplay =
+    document.querySelector(
+        ".account-grid div:nth-child(1) strong"
+    );
+
+const profitDisplay =
+    document.querySelector(
+        ".account-grid div:nth-child(2) strong"
+    );
+
+const winRateDisplay =
+    document.querySelector(
+        ".account-grid div:nth-child(3) strong"
+    );
+
+
+// ========================================
+// XP DISPLAY
+// ========================================
+
+const xpText =
+    document.querySelector(".xp span");
+
+const xpBar =
+    document.querySelector(".xp-bar div");
+
+
+// ========================================
+// LEVEL DISPLAY
+// ========================================
+
 const levelDisplay =
     document.querySelector(
         ".player-info span:nth-child(3)"
@@ -12,6 +106,32 @@ const classScoreDisplay =
     document.querySelector(
         ".current-player strong"
     );
+
+
+// ========================================
+// ANALYSIS DISPLAY
+// ========================================
+
+const statBoxes =
+    document.querySelectorAll(".stat");
+
+const disciplineDisplay =
+    statBoxes[0].querySelector("strong");
+
+const riskControlDisplay =
+    statBoxes[1].querySelector("strong");
+
+const consistencyDisplay =
+    statBoxes[2].querySelector("strong");
+
+const disciplineBar =
+    statBoxes[0].querySelector(".progress div");
+
+const riskControlBar =
+    statBoxes[1].querySelector(".progress div");
+
+const consistencyBar =
+    statBoxes[2].querySelector(".progress div");
 
 
 // ========================================
@@ -89,6 +209,108 @@ function updateClassScoreDisplay() {
 
     classScoreDisplay.textContent =
         classScore.toFixed(1);
+}
+
+
+// ========================================
+// UPDATE SYSTEM ANALYSIS
+// ========================================
+
+function updateAnalysisDisplay() {
+
+    disciplineDisplay.textContent =
+        `${discipline.toFixed(0)}%`;
+
+    riskControlDisplay.textContent =
+        `${riskControl.toFixed(0)}%`;
+
+    consistencyDisplay.textContent =
+        `${consistency.toFixed(0)}%`;
+
+
+    disciplineBar.style.width =
+        `${discipline}%`;
+
+    riskControlBar.style.width =
+        `${riskControl}%`;
+
+    consistencyBar.style.width =
+        `${consistency}%`;
+}
+
+
+// ========================================
+// UPDATE ANALYSIS AFTER TRADE
+// ========================================
+
+function updateAnalysis(result, stake) {
+
+    // DISCIPLINE
+    // Completing planned trades increases it.
+
+    discipline += 0.3;
+
+
+    // RISK CONTROL
+    // Smaller stakes relative to the balance
+    // receive a better system score.
+
+    const riskPercentage =
+        (stake / balance) * 100;
+
+
+    if (riskPercentage <= 10) {
+
+        riskControl += 0.5;
+
+    } else if (riskPercentage <= 20) {
+
+        riskControl += 0.2;
+
+    } else {
+
+        riskControl -= 0.5;
+    }
+
+
+    // CONSISTENCY
+    // Based on completed trades.
+
+    if (totalTrades > 0) {
+
+        const completionScore =
+            Math.min(
+                totalTrades * 2,
+                20
+            );
+
+        consistency =
+            74 + completionScore;
+    }
+
+
+    // Keep values between 0 and 100
+
+    discipline =
+        Math.max(
+            0,
+            Math.min(100, discipline)
+        );
+
+    riskControl =
+        Math.max(
+            0,
+            Math.min(100, riskControl)
+        );
+
+    consistency =
+        Math.max(
+            0,
+            Math.min(100, consistency)
+        );
+
+
+    updateAnalysisDisplay();
 }
 
 
@@ -501,6 +723,16 @@ function updateLatestTradeResult(result) {
 
 
     // ====================================
+    // UPDATE ANALYSIS
+    // ====================================
+
+    updateAnalysis(
+        result,
+        stake
+    );
+
+
+    // ====================================
     // SYSTEM MESSAGE
     // ====================================
 
@@ -538,6 +770,21 @@ function updateLatestTradeResult(result) {
         <p>
             CLASS SCORE:
             ${classScore.toFixed(1)}
+        </p>
+
+        <p>
+            DISCIPLINE:
+            ${discipline.toFixed(0)}%
+        </p>
+
+        <p>
+            RISK CONTROL:
+            ${riskControl.toFixed(0)}%
+        </p>
+
+        <p>
+            CONSISTENCY:
+            ${consistency.toFixed(0)}%
         </p>
 
         <p>
@@ -584,6 +831,8 @@ updateXPDisplay();
 updateLevelDisplay();
 
 updateClassScoreDisplay();
+
+updateAnalysisDisplay();
 
 
 // ========================================
