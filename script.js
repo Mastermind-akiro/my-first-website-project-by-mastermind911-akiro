@@ -2,11 +2,7 @@
 // SYSTEM TERMINAL
 // ========================================
 
-
-// ========================================
 // ELEMENTS
-// ========================================
-
 const contractSelect = document.getElementById("contract");
 const digitInput = document.getElementById("digit");
 const stakeInput = document.getElementById("stake");
@@ -31,8 +27,6 @@ function updateContract() {
 
     const contract = contractSelect.value;
 
-
-    // MATCHES / DIFFERS
     if (contract === "Matches / Differs") {
 
         digitInput.style.display = "block";
@@ -41,8 +35,6 @@ function updateContract() {
         differButton.textContent = "DIFFER";
     }
 
-
-    // EVEN / ODD
     else if (contract === "Even / Odd") {
 
         digitInput.style.display = "none";
@@ -51,8 +43,6 @@ function updateContract() {
         differButton.textContent = "ODD";
     }
 
-
-    // OVER / UNDER
     else if (contract === "Over / Under") {
 
         digitInput.style.display = "block";
@@ -61,8 +51,6 @@ function updateContract() {
         differButton.textContent = "UNDER";
     }
 
-
-    // RISE / FALL
     else if (contract === "Rise / Fall") {
 
         digitInput.style.display = "none";
@@ -72,12 +60,8 @@ function updateContract() {
     }
 }
 
-
-// Listen for contract changes
 contractSelect.addEventListener("change", updateContract);
 
-
-// Set correct buttons when page loads
 updateContract();
 
 
@@ -89,10 +73,12 @@ function showTradeMessage(action) {
 
     const contract = contractSelect.value;
     const digit = digitInput.value;
-    const stake = stakeInput.value;
+    const stake = parseFloat(stakeInput.value);
 
     systemMessage.innerHTML = `
+
         <p>CONTRACT: ${contract}</p>
+
         <p>PREDICTION: ${action}</p>
 
         ${
@@ -101,7 +87,8 @@ function showTradeMessage(action) {
             : ""
         }
 
-        <p>STAKE: $${stake}</p>
+        <p>STAKE: $${stake.toFixed(2)}</p>
+
         <p>STATUS: PENDING</p>
     `;
 }
@@ -117,15 +104,18 @@ function addTradeToHistory(action) {
 
     const contract = contractSelect.value;
     const digit = digitInput.value;
-    const stake = stakeInput.value;
+    const stake = parseFloat(stakeInput.value);
 
     const row = document.createElement("div");
 
     row.className = "history-row";
 
     row.innerHTML = `
+
         <span>${tradeNumber}</span>
+
         <span>${contract}</span>
+
         <span>${action}</span>
 
         <span>
@@ -136,9 +126,11 @@ function addTradeToHistory(action) {
             }
         </span>
 
-        <span>$${stake}</span>
+        <span>$${stake.toFixed(2)}</span>
 
         <span>PENDING</span>
+
+        <span>—</span>
     `;
 
     tradeHistory.appendChild(row);
@@ -149,8 +141,6 @@ function addTradeToHistory(action) {
 // TRADE BUTTONS
 // ========================================
 
-
-// MATCH / EVEN / OVER / RISE
 matchButton.addEventListener("click", function () {
 
     const action = matchButton.textContent;
@@ -161,7 +151,6 @@ matchButton.addEventListener("click", function () {
 });
 
 
-// DIFFER / ODD / UNDER / FALL
 differButton.addEventListener("click", function () {
 
     const action = differButton.textContent;
@@ -180,12 +169,13 @@ function updateLatestTradeResult(result) {
 
     const rows = tradeHistory.querySelectorAll(".history-row");
 
-
-    // No trades yet
+    // No trade exists
     if (rows.length === 0) {
 
         systemMessage.innerHTML = `
+
             <p>NO TRADE AVAILABLE</p>
+
             <p>STATUS: WAITING</p>
         `;
 
@@ -193,19 +183,22 @@ function updateLatestTradeResult(result) {
     }
 
 
-    // Get newest trade
+    // Get latest trade
     const latestRow = rows[rows.length - 1];
 
 
-    // Result is the sixth column
+    // Column positions
     const resultCell = latestRow.children[5];
+    const profitCell = latestRow.children[6];
 
 
-    // Only PENDING trades can be completed
+    // Prevent completing the same trade twice
     if (resultCell.textContent !== "PENDING") {
 
         systemMessage.innerHTML = `
+
             <p>TRADE #${tradeNumber} ALREADY COMPLETE</p>
+
             <p>STATUS: ${resultCell.textContent}</p>
         `;
 
@@ -213,14 +206,60 @@ function updateLatestTradeResult(result) {
     }
 
 
-    // Change PENDING → WIN / LOSS
+    // Get stake
+    const stakeText = latestRow.children[4].textContent;
+
+    const stake = parseFloat(
+        stakeText.replace("$", "")
+    );
+
+
+    // Calculate profit/loss
+    let profitLoss;
+
+
+    if (result === "WIN") {
+
+        profitLoss = stake;
+
+    } else {
+
+        profitLoss = -stake;
+    }
+
+
+    // Update result
     resultCell.textContent = result;
+
+
+    // Update P/L
+    if (profitLoss >= 0) {
+
+        profitCell.textContent =
+            `+$${profitLoss.toFixed(2)}`;
+
+    } else {
+
+        profitCell.textContent =
+            `-$${Math.abs(profitLoss).toFixed(2)}`;
+    }
 
 
     // Update system message
     systemMessage.innerHTML = `
+
         <p>TRADE #${tradeNumber}</p>
+
         <p>RESULT: ${result}</p>
+
+        <p>P/L:
+            ${
+                profitLoss >= 0
+                ? `+$${profitLoss.toFixed(2)}`
+                : `-$${Math.abs(profitLoss).toFixed(2)}`
+            }
+        </p>
+
         <p>STATUS: COMPLETE</p>
     `;
 }
