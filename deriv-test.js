@@ -56,11 +56,7 @@ if (liveDigitHistory.length > 100) {
 }
 
     // Update digit input
-    const digitInput = document.getElementById("digit");
-
-    if (digitInput) {
-        digitInput.value = lastDigit;
-    }
+   
 
     // Update system status
     if (liveSystemMessage) {
