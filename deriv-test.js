@@ -73,7 +73,10 @@ function updateTickHistory() {
 
     tickHistoryDisplay.innerHTML = "";
 
-    marketTickHistory.forEach(function (digit) {
+    // Show only the latest 10 ticks
+    const visibleTicks = marketTickHistory.slice(-10);
+
+    visibleTicks.forEach(function (digit) {
 
         const box = document.createElement("div");
 
@@ -86,19 +89,20 @@ function updateTickHistory() {
         tickHistoryDisplay.appendChild(box);
     });
 
+    // Always show the newest tick
     if (latestTickDisplay && marketTickHistory.length > 0) {
 
         latestTickDisplay.textContent =
             marketTickHistory[marketTickHistory.length - 1];
     }
 
+    // Keep track of the full stored history
     if (tickCountDisplay) {
 
         tickCountDisplay.textContent =
             marketTickHistory.length + " / 500";
     }
 }
-
 
 // =========================================================
 // DERIV CONNECTION
