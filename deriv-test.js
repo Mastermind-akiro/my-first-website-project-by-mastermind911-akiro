@@ -46,6 +46,11 @@ derivSocket.onmessage = function (event) {
     // Extract latest digit
     const priceText = price.toFixed(3);
     const lastDigit = priceText.charAt(priceText.length - 1);
+    const digitInput = document.getElementById("digit");
+
+if (digitInput) {
+    digitInput.value = lastDigit;
+}
 
     console.log("LATEST DIGIT:", lastDigit);
 
