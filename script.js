@@ -426,7 +426,7 @@ marketSelect.addEventListener("change", function () {
 
 // START MARKET
 
-setInterval(generateTick, 1200);
+//setInterval(generateTick, 1200);
 
 
 // START
