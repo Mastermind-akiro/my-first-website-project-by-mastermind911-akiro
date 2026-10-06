@@ -1,4 +1,3 @@
-
 // TRADECORE LIVE MARKET FEED
 
 const derivSocket = new WebSocket(
@@ -7,11 +6,23 @@ const derivSocket = new WebSocket(
 
 const livePriceDisplay = document.getElementById("currentPrice");
 const liveSystemMessage = document.getElementById("systemMessage");
+
+const tickHistoryDisplay = document.getElementById("tickHistory");
+const latestTickDisplay = document.getElementById("latestTick");
+const tickCountDisplay = document.querySelector(".tick-count");
+
 const marketChart = document.getElementById("marketChart");
 const chartContext = marketChart ? marketChart.getContext("2d") : null;
 
 const liveDigitHistory = [];
 const priceHistory = [];
+const marketTickHistory = [];
+
+
+// =========================================================
+// MARKET CHART
+// =========================================================
+
 function drawMarketChart() {
 
     if (!chartContext || !marketChart || priceHistory.length < 2) {
@@ -49,6 +60,50 @@ function drawMarketChart() {
     chartContext.stroke();
 }
 
+
+// =========================================================
+// TICK HISTORY
+// =========================================================
+
+function updateTickHistory() {
+
+    if (!tickHistoryDisplay) {
+        return;
+    }
+
+    tickHistoryDisplay.innerHTML = "";
+
+    marketTickHistory.forEach(function (digit) {
+
+        const box = document.createElement("div");
+
+        box.className =
+            "tick-box " +
+            (digit % 2 === 0 ? "green" : "red");
+
+        box.textContent = digit;
+
+        tickHistoryDisplay.appendChild(box);
+    });
+
+    if (latestTickDisplay && marketTickHistory.length > 0) {
+
+        latestTickDisplay.textContent =
+            marketTickHistory[marketTickHistory.length - 1];
+    }
+
+    if (tickCountDisplay) {
+
+        tickCountDisplay.textContent =
+            marketTickHistory.length + " / 500";
+    }
+}
+
+
+// =========================================================
+// DERIV CONNECTION
+// =========================================================
+
 derivSocket.onopen = function () {
 
     console.log("DERIV CONNECTED");
@@ -60,12 +115,18 @@ derivSocket.onopen = function () {
     }));
 
     if (liveSystemMessage) {
+
         liveSystemMessage.innerHTML =
             "<p>MARKET CONNECTION ACTIVE</p>" +
             "<p>Receiving Volatility 100 tick data.</p>" +
             "<p>Waiting for first market tick...</p>";
     }
 };
+
+
+// =========================================================
+// LIVE MARKET DATA
+// =========================================================
 
 derivSocket.onmessage = function (event) {
 
@@ -78,35 +139,69 @@ derivSocket.onmessage = function (event) {
     const price = Number(data.tick.quote);
 
     console.log("LIVE PRICE:", price);
+
+    // Store price for chart
     priceHistory.push(price);
 
-if (priceHistory.length > 100) {
-    priceHistory.shift();
-}
-
-drawMarketChart();
-
-    // Update visible price
-    if (livePriceDisplay) {
-        livePriceDisplay.textContent = String(data.tick.quote);
+    if (priceHistory.length > 100) {
+        priceHistory.shift();
     }
 
-    // Extract the actual latest digit from the Deriv quote
+    drawMarketChart();
+
+
+    // =====================================================
+    // UPDATE VISIBLE PRICE
+    // =====================================================
+
+    if (livePriceDisplay) {
+
+        livePriceDisplay.textContent =
+            String(data.tick.quote);
+    }
+
+
+    // =====================================================
+    // EXTRACT ACTUAL LAST DIGIT
+    // =====================================================
+
     const priceText = String(data.tick.quote);
-    const lastDigit = priceText.charAt(priceText.length - 1);
+
+    const lastDigit =
+        priceText.charAt(priceText.length - 1);
 
     console.log("LATEST DIGIT:", lastDigit);
+
+
+    // Keep existing live digit history
     liveDigitHistory.push(Number(lastDigit));
 
-if (liveDigitHistory.length > 500) {
-    liveDigitHistory.shift();
-}
+    if (liveDigitHistory.length > 500) {
+        liveDigitHistory.shift();
+    }
 
-    // Update digit input
-   
 
-    // Update system status
+    // =====================================================
+    // TICK HISTORY DISPLAY
+    // =====================================================
+
+    const digit = Number(lastDigit);
+
+    marketTickHistory.push(digit);
+
+    if (marketTickHistory.length > 500) {
+        marketTickHistory.shift();
+    }
+
+    updateTickHistory();
+
+
+    // =====================================================
+    // SYSTEM STATUS
+    // =====================================================
+
     if (liveSystemMessage) {
+
         liveSystemMessage.innerHTML =
             "<p>MARKET ONLINE</p>" +
             "<p>Volatility 100 Index</p>" +
@@ -114,25 +209,36 @@ if (liveDigitHistory.length > 500) {
     }
 };
 
+
+// =========================================================
+// CONNECTION ERROR
+// =========================================================
+
 derivSocket.onerror = function () {
 
     console.error("DERIV CONNECTION ERROR");
 
     if (liveSystemMessage) {
+
         liveSystemMessage.innerHTML =
             "<p>MARKET CONNECTION ERROR</p>" +
             "<p>Unable to receive market data.</p>";
     }
 };
 
+
+// =========================================================
+// CONNECTION CLOSED
+// =========================================================
+
 derivSocket.onclose = function () {
 
     console.log("DERIV DISCONNECTED");
 
     if (liveSystemMessage) {
+
         liveSystemMessage.innerHTML =
             "<p>MARKET DISCONNECTED</p>" +
             "<p>Connection to market data closed.</p>";
     }
 };
-
