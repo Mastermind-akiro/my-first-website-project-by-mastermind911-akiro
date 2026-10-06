@@ -5,8 +5,8 @@ const derivSocket = new WebSocket(
     "wss://api.derivws.com/trading/v1/options/ws/public"
 );
 
-const currentPrice = document.getElementById("currentPrice");
-const systemMessage = document.getElementById("systemMessage");
+const livePriceDisplay = document.getElementById("livePriceDisplay");
+const liveSystemMessage = document.getElementById("liveSystemMessage");
 
 derivSocket.onopen = function () {
 
