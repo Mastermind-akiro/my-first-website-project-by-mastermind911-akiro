@@ -7,6 +7,7 @@ const derivSocket = new WebSocket(
 
 const livePriceDisplay = document.getElementById("currentPrice");
 const liveSystemMessage = document.getElementById("systemMessage");
+const liveDigitHistory = [];
 
 derivSocket.onopen = function () {
 
@@ -48,6 +49,11 @@ derivSocket.onmessage = function (event) {
     const lastDigit = priceText.charAt(priceText.length - 1);
 
     console.log("LATEST DIGIT:", lastDigit);
+    liveDigitHistory.push(Number(lastDigit));
+
+if (liveDigitHistory.length > 100) {
+    liveDigitHistory.shift();
+}
 
     // Update digit input
     const digitInput = document.getElementById("digit");
