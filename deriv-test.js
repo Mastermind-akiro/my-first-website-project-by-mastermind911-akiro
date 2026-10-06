@@ -51,7 +51,7 @@ derivSocket.onmessage = function (event) {
     console.log("LATEST DIGIT:", lastDigit);
     liveDigitHistory.push(Number(lastDigit));
 
-if (liveDigitHistory.length > 100) {
+if (liveDigitHistory.length > 500) {
     liveDigitHistory.shift();
 }
 
