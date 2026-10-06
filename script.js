@@ -1,11 +1,13 @@
-// ========================================
-// SYSTEM TERMINAL
-// ========================================
+```javascript
+// ============================================================
+// TRADECORE — PROFESSIONAL TRADING WORKSPACE
+// MARKET INTELLIGENCE + TRADING ENGINE
+// ============================================================
 
 
-// ========================================
+// ============================================================
 // ELEMENTS
-// ========================================
+// ============================================================
 
 const contractSelect = document.getElementById("contract");
 const digitInput = document.getElementById("digit");
@@ -20,10 +22,15 @@ const tradeHistory = document.getElementById("tradeHistory");
 const winButton = document.getElementById("winButton");
 const lossButton = document.getElementById("lossButton");
 
+const marketSelect = document.getElementById("marketSelect");
 
-// ========================================
+const currentPriceDisplay =
+    document.getElementById("currentPrice");
+
+
+// ============================================================
 // ACCOUNT DATA
-// ========================================
+// ============================================================
 
 let balance = 8.35;
 let startingBalance = 8.35;
@@ -36,9 +43,9 @@ let winningTrades = 0;
 let losingTrades = 0;
 
 
-// ========================================
-// PLAYER DATA
-// ========================================
+// ============================================================
+// PERFORMANCE DATA
+// ============================================================
 
 let level = 7;
 
@@ -47,278 +54,116 @@ let xpRequired = 3000;
 
 let classScore = 86.4;
 
-
-// ========================================
-// SYSTEM ANALYSIS
-// ========================================
-
 let discipline = 91;
 let riskControl = 82;
 let consistency = 74;
 
 
-// ========================================
+// ============================================================
+// MARKET DATA
+// ============================================================
+
+let currentPrice = 12345.6789;
+
+let previousPrice = currentPrice;
+
+let currentDigit = 0;
+
+let tickHistory = [];
+
+const MAX_TICKS = 20;
+
+
+// ============================================================
 // ACCOUNT DISPLAY
-// ========================================
+// ============================================================
 
 const balanceDisplay =
     document.querySelector(
-        ".account-grid div:nth-child(1) strong"
+        ".account-grid .metric-card:nth-child(1) strong"
     );
 
 const profitDisplay =
     document.querySelector(
-        ".account-grid div:nth-child(2) strong"
+        ".account-grid .metric-card:nth-child(2) strong"
     );
 
 const winRateDisplay =
     document.querySelector(
-        ".account-grid div:nth-child(3) strong"
+        ".account-grid .metric-card:nth-child(3) strong"
     );
 
-
-// ========================================
-// XP DISPLAY
-// ========================================
-
-const xpText =
-    document.querySelector(".xp span");
-
-const xpBar =
-    document.querySelector(".xp-bar div");
-
-
-// ========================================
-// LEVEL DISPLAY
-// ========================================
-
-const levelDisplay =
+const tradesDisplay =
     document.querySelector(
-        ".player-info span:nth-child(3)"
+        ".account-grid .metric-card:nth-child(4) strong"
     );
 
 
-// ========================================
-// CLASS SCORE DISPLAY
-// ========================================
+// ============================================================
+// PERFORMANCE DISPLAY
+// ============================================================
 
-const classScoreDisplay =
-    document.querySelector(
-        ".current-player strong"
-    );
-
-
-// ========================================
-// ANALYSIS DISPLAY
-// ========================================
-
-const statBoxes =
+const statElements =
     document.querySelectorAll(".stat");
 
-const disciplineDisplay =
-    statBoxes[0].querySelector("strong");
 
-const riskControlDisplay =
-    statBoxes[1].querySelector("strong");
-
-const consistencyDisplay =
-    statBoxes[2].querySelector("strong");
-
-const disciplineBar =
-    statBoxes[0].querySelector(".progress div");
-
-const riskControlBar =
-    statBoxes[1].querySelector(".progress div");
-
-const consistencyBar =
-    statBoxes[2].querySelector(".progress div");
-
-
-// ========================================
-// UPDATE ACCOUNT
-// ========================================
+// ============================================================
+// ACCOUNT UPDATE
+// ============================================================
 
 function updateAccountDisplay() {
 
-    balanceDisplay.textContent =
-        `$${balance.toFixed(2)}`;
-
-
-    if (totalProfit >= 0) {
-
-        profitDisplay.textContent =
-            `+$${totalProfit.toFixed(2)}`;
-
-    } else {
-
-        profitDisplay.textContent =
-            `-$${Math.abs(totalProfit).toFixed(2)}`;
+    if (balanceDisplay) {
+        balanceDisplay.textContent =
+            `$${balance.toFixed(2)}`;
     }
 
 
-    let winRate = 0;
+    if (profitDisplay) {
 
+        if (totalProfit >= 0) {
 
-    if (totalTrades > 0) {
+            profitDisplay.textContent =
+                `+$${totalProfit.toFixed(2)}`;
 
-        winRate =
-            (winningTrades / totalTrades) * 100;
+        } else {
+
+            profitDisplay.textContent =
+                `-$${Math.abs(totalProfit).toFixed(2)}`;
+        }
     }
 
 
-    winRateDisplay.textContent =
-        `${winRate.toFixed(1)}%`;
-}
+    if (winRateDisplay) {
 
+        let winRate = 0;
 
-// ========================================
-// UPDATE XP
-// ========================================
+        if (totalTrades > 0) {
 
-function updateXPDisplay() {
+            winRate =
+                (winningTrades / totalTrades) * 100;
+        }
 
-    xpText.textContent =
-        `XP ${xp.toLocaleString()} / ${xpRequired.toLocaleString()}`;
-
-
-    const percentage =
-        (xp / xpRequired) * 100;
-
-
-    xpBar.style.width =
-        `${percentage}%`;
-}
-
-
-// ========================================
-// UPDATE LEVEL
-// ========================================
-
-function updateLevelDisplay() {
-
-    levelDisplay.textContent =
-        `LEVEL: ${String(level).padStart(2, "0")}`;
-}
-
-
-// ========================================
-// UPDATE CLASS SCORE
-// ========================================
-
-function updateClassScoreDisplay() {
-
-    classScoreDisplay.textContent =
-        classScore.toFixed(1);
-}
-
-
-// ========================================
-// UPDATE SYSTEM ANALYSIS
-// ========================================
-
-function updateAnalysisDisplay() {
-
-    disciplineDisplay.textContent =
-        `${discipline.toFixed(0)}%`;
-
-    riskControlDisplay.textContent =
-        `${riskControl.toFixed(0)}%`;
-
-    consistencyDisplay.textContent =
-        `${consistency.toFixed(0)}%`;
-
-
-    disciplineBar.style.width =
-        `${discipline}%`;
-
-    riskControlBar.style.width =
-        `${riskControl}%`;
-
-    consistencyBar.style.width =
-        `${consistency}%`;
-}
-
-
-// ========================================
-// UPDATE ANALYSIS AFTER TRADE
-// ========================================
-
-function updateAnalysis(result, stake) {
-
-    // DISCIPLINE
-    // Completing planned trades increases it.
-
-    discipline += 0.3;
-
-
-    // RISK CONTROL
-    // Smaller stakes relative to the balance
-    // receive a better system score.
-
-    const riskPercentage =
-        (stake / balance) * 100;
-
-
-    if (riskPercentage <= 10) {
-
-        riskControl += 0.5;
-
-    } else if (riskPercentage <= 20) {
-
-        riskControl += 0.2;
-
-    } else {
-
-        riskControl -= 0.5;
+        winRateDisplay.textContent =
+            `${winRate.toFixed(1)}%`;
     }
 
 
-    // CONSISTENCY
-    // Based on completed trades.
+    if (tradesDisplay) {
 
-    if (totalTrades > 0) {
-
-        const completionScore =
-            Math.min(
-                totalTrades * 2,
-                20
-            );
-
-        consistency =
-            74 + completionScore;
+        tradesDisplay.textContent =
+            totalTrades;
     }
-
-
-    // Keep values between 0 and 100
-
-    discipline =
-        Math.max(
-            0,
-            Math.min(100, discipline)
-        );
-
-    riskControl =
-        Math.max(
-            0,
-            Math.min(100, riskControl)
-        );
-
-    consistency =
-        Math.max(
-            0,
-            Math.min(100, consistency)
-        );
-
-
-    updateAnalysisDisplay();
 }
 
 
-// ========================================
+// ============================================================
 // CONTRACT SYSTEM
-// ========================================
+// ============================================================
 
 function updateContract() {
+
+    if (!contractSelect) return;
 
     const contract =
         contractSelect.value;
@@ -326,8 +171,7 @@ function updateContract() {
 
     if (contract === "Matches / Differs") {
 
-        digitInput.style.display =
-            "block";
+        digitInput.style.display = "block";
 
         matchButton.textContent =
             "MATCH";
@@ -339,8 +183,7 @@ function updateContract() {
 
     else if (contract === "Even / Odd") {
 
-        digitInput.style.display =
-            "none";
+        digitInput.style.display = "none";
 
         matchButton.textContent =
             "EVEN";
@@ -352,8 +195,7 @@ function updateContract() {
 
     else if (contract === "Over / Under") {
 
-        digitInput.style.display =
-            "block";
+        digitInput.style.display = "block";
 
         matchButton.textContent =
             "OVER";
@@ -365,8 +207,7 @@ function updateContract() {
 
     else if (contract === "Rise / Fall") {
 
-        digitInput.style.display =
-            "none";
+        digitInput.style.display = "none";
 
         matchButton.textContent =
             "RISE";
@@ -377,17 +218,20 @@ function updateContract() {
 }
 
 
-contractSelect.addEventListener(
-    "change",
-    updateContract
-);
+if (contractSelect) {
+
+    contractSelect.addEventListener(
+        "change",
+        updateContract
+    );
+}
 
 updateContract();
 
 
-// ========================================
+// ============================================================
 // SYSTEM MESSAGE
-// ========================================
+// ============================================================
 
 function showTradeMessage(action) {
 
@@ -403,9 +247,13 @@ function showTradeMessage(action) {
 
     systemMessage.innerHTML = `
 
-        <p>CONTRACT: ${contract}</p>
+        <p>
+            CONTRACT: ${contract}
+        </p>
 
-        <p>PREDICTION: ${action}</p>
+        <p>
+            PREDICTION: ${action}
+        </p>
 
         ${
             digitInput.style.display !== "none"
@@ -413,16 +261,24 @@ function showTradeMessage(action) {
             : ""
         }
 
-        <p>STAKE: $${stake.toFixed(2)}</p>
+        <p>
+            STAKE: $${stake.toFixed(2)}
+        </p>
 
-        <p>STATUS: PENDING</p>
+        <p>
+            MARKET DIGIT: ${currentDigit}
+        </p>
+
+        <p>
+            STATUS: PENDING
+        </p>
     `;
 }
 
 
-// ========================================
+// ============================================================
 // TRADE HISTORY
-// ========================================
+// ============================================================
 
 function addTradeToHistory(action) {
 
@@ -442,17 +298,24 @@ function addTradeToHistory(action) {
     const row =
         document.createElement("div");
 
+
     row.className =
         "history-row";
 
 
     row.innerHTML = `
 
-        <span>${tradeNumber}</span>
+        <span>
+            ${tradeNumber}
+        </span>
 
-        <span>${contract}</span>
+        <span>
+            ${contract}
+        </span>
 
-        <span>${action}</span>
+        <span>
+            ${action}
+        </span>
 
         <span>
             ${
@@ -462,11 +325,17 @@ function addTradeToHistory(action) {
             }
         </span>
 
-        <span>$${stake.toFixed(2)}</span>
+        <span>
+            $${stake.toFixed(2)}
+        </span>
 
-        <span>PENDING</span>
+        <span>
+            PENDING
+        </span>
 
-        <span>—</span>
+        <span>
+            —
+        </span>
     `;
 
 
@@ -474,118 +343,47 @@ function addTradeToHistory(action) {
 }
 
 
-// ========================================
+// ============================================================
 // TRADE BUTTONS
-// ========================================
+// ============================================================
 
-matchButton.addEventListener(
-    "click",
-    function () {
+if (matchButton) {
 
-        const action =
-            matchButton.textContent;
+    matchButton.addEventListener(
+        "click",
+        function () {
 
-        showTradeMessage(action);
+            const action =
+                matchButton.textContent;
 
-        addTradeToHistory(action);
-    }
-);
+            showTradeMessage(action);
 
-
-differButton.addEventListener(
-    "click",
-    function () {
-
-        const action =
-            differButton.textContent;
-
-        showTradeMessage(action);
-
-        addTradeToHistory(action);
-    }
-);
-
-
-// ========================================
-// WIN XP
-// ========================================
-
-function rewardWinXP() {
-
-    xp += 100;
-
-    classScore += 0.5;
-
-
-    checkLevelUp();
-
-    updateXPDisplay();
-
-    updateLevelDisplay();
-
-    updateClassScoreDisplay();
+            addTradeToHistory(action);
+        }
+    );
 }
 
 
-// ========================================
-// LOSS XP
-// ========================================
+if (differButton) {
 
-function applyLossXP() {
+    differButton.addEventListener(
+        "click",
+        function () {
 
-    xp -= 25;
+            const action =
+                differButton.textContent;
 
-    classScore -= 0.2;
+            showTradeMessage(action);
 
-
-    if (xp < 0) {
-
-        xp = 0;
-    }
-
-
-    if (classScore < 0) {
-
-        classScore = 0;
-    }
-
-
-    updateXPDisplay();
-
-    updateClassScoreDisplay();
+            addTradeToHistory(action);
+        }
+    );
 }
 
 
-// ========================================
-// LEVEL UP
-// ========================================
-
-function checkLevelUp() {
-
-    while (xp >= xpRequired) {
-
-        xp -= xpRequired;
-
-        level++;
-
-        xpRequired += 500;
-
-
-        systemMessage.innerHTML = `
-
-            <p>◈ SYSTEM LEVEL UP</p>
-
-            <p>NEW LEVEL: ${level}</p>
-
-            <p>XP REQUIREMENT INCREASED</p>
-        `;
-    }
-}
-
-
-// ========================================
+// ============================================================
 // RESULT SYSTEM
-// ========================================
+// ============================================================
 
 function updateLatestTradeResult(result) {
 
@@ -599,9 +397,13 @@ function updateLatestTradeResult(result) {
 
         systemMessage.innerHTML = `
 
-            <p>NO TRADE AVAILABLE</p>
+            <p>
+                NO TRADE AVAILABLE
+            </p>
 
-            <p>STATUS: WAITING</p>
+            <p>
+                STATUS: WAITING
+            </p>
         `;
 
         return;
@@ -620,8 +422,8 @@ function updateLatestTradeResult(result) {
 
 
     if (
-        resultCell.textContent !==
-        "PENDING"
+        resultCell.textContent.trim()
+        !== "PENDING"
     ) {
 
         systemMessage.innerHTML = `
@@ -654,13 +456,10 @@ function updateLatestTradeResult(result) {
     let profitLoss;
 
 
-    // ====================================
-    // WIN
-    // ====================================
-
     if (result === "WIN") {
 
-        profitLoss = stake;
+        profitLoss =
+            stake;
 
         balance += stake;
 
@@ -668,73 +467,43 @@ function updateLatestTradeResult(result) {
 
         winningTrades++;
 
+    } else {
 
-        rewardWinXP();
-    }
-
-
-    // ====================================
-    // LOSS
-    // ====================================
-
-    else {
-
-        profitLoss = -stake;
+        profitLoss =
+            -stake;
 
         balance -= stake;
 
         totalProfit -= stake;
 
         losingTrades++;
-
-
-        applyLossXP();
     }
 
 
     totalTrades++;
 
 
-    // ====================================
-    // UPDATE HISTORY
-    // ====================================
-
     resultCell.textContent =
         result;
 
 
-    if (profitLoss >= 0) {
+    profitCell.textContent =
 
-        profitCell.textContent =
-            `+$${profitLoss.toFixed(2)}`;
+        profitLoss >= 0
 
-    } else {
+        ? `+$${profitLoss.toFixed(2)}`
 
-        profitCell.textContent =
-            `-$${Math.abs(profitLoss).toFixed(2)}`;
-    }
+        : `-$${Math.abs(profitLoss).toFixed(2)}`;
 
-
-    // ====================================
-    // UPDATE ACCOUNT
-    // ====================================
 
     updateAccountDisplay();
 
 
-    // ====================================
-    // UPDATE ANALYSIS
-    // ====================================
-
-    updateAnalysis(
-        result,
-        stake
-    );
+    updateXP(result);
 
 
-    // ====================================
-    // SYSTEM MESSAGE
-    // ====================================
+    updateAnalysis(result, stake);
+
 
     systemMessage.innerHTML = `
 
@@ -761,30 +530,8 @@ function updateLatestTradeResult(result) {
         </p>
 
         <p>
-            XP:
-            ${xp.toLocaleString()}
-            /
-            ${xpRequired.toLocaleString()}
-        </p>
-
-        <p>
-            CLASS SCORE:
-            ${classScore.toFixed(1)}
-        </p>
-
-        <p>
-            DISCIPLINE:
-            ${discipline.toFixed(0)}%
-        </p>
-
-        <p>
-            RISK CONTROL:
-            ${riskControl.toFixed(0)}%
-        </p>
-
-        <p>
-            CONSISTENCY:
-            ${consistency.toFixed(0)}%
+            MARKET DIGIT:
+            ${currentDigit}
         </p>
 
         <p>
@@ -794,52 +541,538 @@ function updateLatestTradeResult(result) {
 }
 
 
-// ========================================
-// MARK WIN
-// ========================================
+// ============================================================
+// RESULT BUTTONS
+// ============================================================
 
-winButton.addEventListener(
-    "click",
-    function () {
+if (winButton) {
 
-        updateLatestTradeResult("WIN");
+    winButton.addEventListener(
+        "click",
+        function () {
+
+            updateLatestTradeResult(
+                "WIN"
+            );
+        }
+    );
+}
+
+
+if (lossButton) {
+
+    lossButton.addEventListener(
+        "click",
+        function () {
+
+            updateLatestTradeResult(
+                "LOSS"
+            );
+        }
+    );
+}
+
+
+// ============================================================
+// XP SYSTEM
+// ============================================================
+
+function updateXP(result) {
+
+    if (result === "WIN") {
+
+        xp += 100;
+
+        classScore += 0.5;
+
+    } else {
+
+        xp -= 25;
+
+        classScore -= 0.2;
     }
+
+
+    xp =
+        Math.max(0, xp);
+
+
+    classScore =
+        Math.max(
+            0,
+            Math.min(100, classScore)
+        );
+
+
+    if (xp >= xpRequired) {
+
+        xp -= xpRequired;
+
+        level++;
+
+        xpRequired += 500;
+
+
+        systemMessage.innerHTML += `
+
+            <p>
+                LEVEL UP → LEVEL ${level}
+            </p>
+        `;
+    }
+}
+
+
+// ============================================================
+// ANALYSIS SYSTEM
+// ============================================================
+
+function updateAnalysis(
+    result,
+    stake
+) {
+
+    discipline += 0.3;
+
+
+    const riskPercentage =
+        balance > 0
+        ? (stake / balance) * 100
+        : 100;
+
+
+    if (riskPercentage <= 10) {
+
+        riskControl += 0.5;
+
+    } else if (riskPercentage <= 20) {
+
+        riskControl += 0.2;
+
+    } else {
+
+        riskControl -= 0.5;
+    }
+
+
+    consistency =
+        74 +
+        Math.min(
+            totalTrades * 2,
+            20
+        );
+
+
+    discipline =
+        Math.max(
+            0,
+            Math.min(100, discipline)
+        );
+
+
+    riskControl =
+        Math.max(
+            0,
+            Math.min(100, riskControl)
+        );
+
+
+    consistency =
+        Math.max(
+            0,
+            Math.min(100, consistency)
+        );
+
+
+    updateAnalysisDisplay();
+}
+
+
+// ============================================================
+// ANALYSIS DISPLAY
+// ============================================================
+
+function updateAnalysisDisplay() {
+
+    if (!statElements.length) return;
+
+
+    const values = [
+
+        discipline,
+
+        riskControl,
+
+        consistency
+
+    ];
+
+
+    statElements.forEach(
+        (stat, index) => {
+
+            const strong =
+                stat.querySelector("strong");
+
+            const bar =
+                stat.querySelector(
+                    ".progress div"
+                );
+
+
+            if (strong) {
+
+                strong.textContent =
+                    `${values[index].toFixed(0)}%`;
+            }
+
+
+            if (bar) {
+
+                bar.style.width =
+                    `${values[index]}%`;
+            }
+        }
+    );
+}
+
+
+// ============================================================
+// MARKET ENGINE
+// ============================================================
+
+// Generate a realistic-looking
+// simulated tick.
+
+function generateTick() {
+
+    previousPrice =
+        currentPrice;
+
+
+    const movement =
+        (Math.random() - 0.5)
+        * 12;
+
+
+    currentPrice +=
+        movement;
+
+
+    currentPrice =
+        Math.max(
+            1000,
+            currentPrice
+        );
+
+
+    const priceString =
+        currentPrice
+            .toFixed(4);
+
+
+    currentDigit =
+        parseInt(
+            priceString[
+                priceString.length - 1
+            ]
+        );
+
+
+    tickHistory.push({
+
+        price:
+            currentPrice,
+
+        digit:
+            currentDigit,
+
+        time:
+            new Date()
+                .toLocaleTimeString()
+
+    });
+
+
+    if (
+        tickHistory.length
+        > MAX_TICKS
+    ) {
+
+        tickHistory.shift();
+    }
+
+
+    updateMarketDisplay();
+
+    updateMarketAnalysis();
+}
+
+
+// ============================================================
+// MARKET DISPLAY
+// ============================================================
+
+function updateMarketDisplay() {
+
+    if (!currentPriceDisplay)
+        return;
+
+
+    currentPriceDisplay.textContent =
+        currentPrice.toFixed(4);
+}
+
+
+// ============================================================
+// MARKET ANALYSIS
+// ============================================================
+
+function updateMarketAnalysis() {
+
+    if (
+        tickHistory.length === 0
+    ) {
+        return;
+    }
+
+
+    const digits =
+        tickHistory.map(
+            tick => tick.digit
+        );
+
+
+    const counts =
+        Array(10).fill(0);
+
+
+    digits.forEach(
+        digit => {
+
+            counts[digit]++;
+        }
+    );
+
+
+    let highestDigit = 0;
+
+    let highestCount = 0;
+
+
+    counts.forEach(
+        (count, digit) => {
+
+            if (
+                count > highestCount
+            ) {
+
+                highestCount =
+                    count;
+
+                highestDigit =
+                    digit;
+            }
+        }
+    );
+
+
+    const evenCount =
+        digits.filter(
+            digit =>
+                digit % 2 === 0
+        ).length;
+
+
+    const oddCount =
+        digits.length -
+        evenCount;
+
+
+    const analysisCards =
+        document.querySelectorAll(
+            ".analysis-card"
+        );
+
+
+    if (
+        analysisCards.length >= 4
+    ) {
+
+        analysisCards[0]
+            .querySelector("strong")
+            .textContent =
+            `${highestDigit} (${highestCount})`;
+
+
+        analysisCards[0]
+            .querySelector("small")
+            .textContent =
+            "Most frequent digit";
+
+
+        const evenPercentage =
+            (
+                evenCount /
+                digits.length
+            ) * 100;
+
+
+        analysisCards[1]
+            .querySelector("strong")
+            .textContent =
+            `${evenPercentage.toFixed(0)}% EVEN`;
+
+
+        analysisCards[1]
+            .querySelector("small")
+            .textContent =
+            `${oddCount} odd / ${evenCount} even`;
+
+
+        const overCount =
+            digits.filter(
+                digit => digit > 4
+            ).length;
+
+
+        const underCount =
+            digits.length -
+            overCount;
+
+
+        const overPercentage =
+            (
+                overCount /
+                digits.length
+            ) * 100;
+
+
+        analysisCards[2]
+            .querySelector("strong")
+            .textContent =
+            `${overPercentage.toFixed(0)}% OVER`;
+
+
+        analysisCards[2]
+            .querySelector("small")
+            .textContent =
+            `${overCount} over / ${underCount} under`;
+
+
+        const lastDigit =
+            digits[digits.length - 1];
+
+
+        analysisCards[3]
+            .querySelector("strong")
+            .textContent =
+            lastDigit;
+
+
+        analysisCards[3]
+            .querySelector("small")
+            .textContent =
+            "Latest market digit";
+    }
+}
+
+
+// ============================================================
+// MARKET SELECTOR
+// ============================================================
+
+if (marketSelect) {
+
+    marketSelect.addEventListener(
+        "change",
+        function () {
+
+            const selected =
+                marketSelect.value;
+
+
+            const volatilityDisplay =
+                document.querySelector(
+                    ".market-volatility"
+                );
+
+
+            if (
+                volatilityDisplay
+            ) {
+
+                volatilityDisplay.textContent =
+                    selected
+                        .replace(
+                            " Index",
+                            ""
+                        )
+                        .toUpperCase();
+            }
+
+
+            systemMessage.innerHTML = `
+
+                <p>
+                    MARKET SELECTED:
+                    ${selected}
+                </p>
+
+                <p>
+                    STATUS:
+                    SIMULATED DATA
+                </p>
+
+                <p>
+                    LIVE DERIV CONNECTION:
+                    NOT CONNECTED
+                </p>
+            `;
+        }
+    );
+}
+
+
+// ============================================================
+// SIMULATED MARKET LOOP
+// ============================================================
+
+// Generate a new tick
+// every 1.2 seconds.
+
+setInterval(
+    generateTick,
+    1200
 );
 
 
-// ========================================
-// MARK LOSS
-// ========================================
-
-lossButton.addEventListener(
-    "click",
-    function () {
-
-        updateLatestTradeResult("LOSS");
-    }
-);
-
-
-// ========================================
-// INITIAL DISPLAY
-// ========================================
+// ============================================================
+// INITIALIZATION
+// ============================================================
 
 updateAccountDisplay();
 
-updateXPDisplay();
-
-updateLevelDisplay();
-
-updateClassScoreDisplay();
-
 updateAnalysisDisplay();
 
+generateTick();
 
-// ========================================
-// SYSTEM ONLINE
-// ========================================
+
+// ============================================================
+// CONSOLE
+// ============================================================
 
 console.log(
-    "SYSTEM TERMINAL ONLINE"
+    "TRADECORE MARKET ENGINE ONLINE"
 );
+
+console.log(
+    "DATA SOURCE: SIMULATED TICKS"
+);
+
+console.log(
+    "DERIV WEBSOCKET: NOT CONNECTED"
+);
+```
+
 
