@@ -1,4 +1,4 @@
-```javascript
+
 // DERIV MARKET DATA TEST
 
 const derivSocket = new WebSocket(
@@ -42,4 +42,4 @@ derivSocket.onclose = function () {
     console.log("DERIV DISCONNECTED");
 
 };
-```
+
