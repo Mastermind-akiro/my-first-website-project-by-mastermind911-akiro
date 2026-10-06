@@ -434,4 +434,4 @@ setInterval(generateTick, 1200);
 updateAccount();
 
 console.log("TRADECORE ONLINE");
-```
+
