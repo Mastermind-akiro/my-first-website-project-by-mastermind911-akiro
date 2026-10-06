@@ -1,14 +1,11 @@
 ```javascript
 // ========================================
 // TRADECORE
-// STABLE TRADING WORKSPACE SCRIPT
+// CLEAN STABLE SCRIPT
 // ========================================
 
 
-// ========================================
 // ELEMENTS
-// ========================================
-
 const contractSelect = document.getElementById("contract");
 const digitInput = document.getElementById("digit");
 const stakeInput = document.getElementById("stake");
@@ -27,7 +24,7 @@ const currentPrice = document.getElementById("currentPrice");
 
 
 // ========================================
-// ACCOUNT DATA
+// ACCOUNT
 // ========================================
 
 let balance = 8.35;
@@ -40,7 +37,7 @@ let losingTrades = 0;
 
 
 // ========================================
-// PERFORMANCE DATA
+// PERFORMANCE
 // ========================================
 
 let discipline = 91;
@@ -49,11 +46,10 @@ let consistency = 74;
 
 
 // ========================================
-// MARKET DATA
+// MARKET
 // ========================================
 
 let tickHistory = [];
-let marketRunning = true;
 
 const marketPrices = {
     "Volatility 100 Index": 100000,
@@ -79,10 +75,6 @@ const winRateDisplay =
 const tradesDisplay =
     document.querySelector(".metric-card:nth-child(4) strong");
 
-
-// ========================================
-// UPDATE ACCOUNT
-// ========================================
 
 function updateAccountDisplay() {
 
@@ -123,14 +115,10 @@ function updateAccountDisplay() {
 
 
 // ========================================
-// CONTRACT SYSTEM
+// CONTRACT
 // ========================================
 
 function updateContract() {
-
-    if (!contractSelect) {
-        return;
-    }
 
     const contract =
         contractSelect.value;
@@ -143,7 +131,7 @@ function updateContract() {
         differButton.textContent = "DIFFER";
     }
 
-    else if (contract === "Even / Odd") {
+    if (contract === "Even / Odd") {
 
         digitInput.style.display = "none";
 
@@ -151,7 +139,7 @@ function updateContract() {
         differButton.textContent = "ODD";
     }
 
-    else if (contract === "Over / Under") {
+    if (contract === "Over / Under") {
 
         digitInput.style.display = "block";
 
@@ -159,7 +147,7 @@ function updateContract() {
         differButton.textContent = "UNDER";
     }
 
-    else if (contract === "Rise / Fall") {
+    if (contract === "Rise / Fall") {
 
         digitInput.style.display = "none";
 
@@ -169,12 +157,10 @@ function updateContract() {
 }
 
 
-if (contractSelect) {
-    contractSelect.addEventListener(
-        "change",
-        updateContract
-    );
-}
+contractSelect.addEventListener(
+    "change",
+    updateContract
+);
 
 updateContract();
 
@@ -188,52 +174,92 @@ function showTradeMessage(action) {
     const contract =
         contractSelect.value;
 
-    const digit =
-        digitInput.value;
-
     const stake =
         parseFloat(stakeInput.value);
 
-    systemMessage.innerHTML = `
-        <p>CONTRACT: ${contract}</p>
-        <p>PREDICTION: ${action}</p>
-        <p>STAKE: $${stake.toFixed(2)}</p>
-        ${
-            digitInput.style.display !== "none"
-            ? `<p>DIGIT: ${digit}</p>`
-            : ""
-        }
-        <p>STATUS: PENDING</p>
-    `;
+    systemMessage.innerHTML = "";
+
+    const line1 =
+        document.createElement("p");
+
+    line1.textContent =
+        "CONTRACT: " + contract;
+
+    systemMessage.appendChild(line1);
+
+
+    const line2 =
+        document.createElement("p");
+
+    line2.textContent =
+        "PREDICTION: " + action;
+
+    systemMessage.appendChild(line2);
+
+
+    const line3 =
+        document.createElement("p");
+
+    line3.textContent =
+        "STAKE: $" + stake.toFixed(2);
+
+    systemMessage.appendChild(line3);
+
+
+    if (digitInput.style.display !== "none") {
+
+        const digitLine =
+            document.createElement("p");
+
+        digitLine.textContent =
+            "DIGIT: " + digitInput.value;
+
+        systemMessage.appendChild(
+            digitLine
+        );
+    }
+
+
+    const statusLine =
+        document.createElement("p");
+
+    statusLine.textContent =
+        "STATUS: PENDING";
+
+    systemMessage.appendChild(
+        statusLine
+    );
 }
 
 
 // ========================================
-// ADD TRADE TO HISTORY
+// ADD TRADE
 // ========================================
 
 function addTradeToHistory(action) {
-
-    tradeNumber++;
-
-    const contract =
-        contractSelect.value;
-
-    const digit =
-        digitInput.value;
 
     const stake =
         parseFloat(stakeInput.value);
 
     if (isNaN(stake) || stake <= 0) {
 
-        systemMessage.innerHTML = `
-            <p>INVALID STAKE</p>
-            <p>Enter a valid trading amount.</p>
-        `;
+        systemMessage.textContent =
+            "INVALID STAKE";
 
-        return;
+        return false;
     }
+
+    if (stake > balance) {
+
+        systemMessage.textContent =
+            "INSUFFICIENT BALANCE";
+
+        return false;
+    }
+
+
+    tradeNumber++;
+
 
     const row =
         document.createElement("div");
@@ -241,29 +267,73 @@ function addTradeToHistory(action) {
     row.className =
         "history-row";
 
-    row.innerHTML = `
-        <span>${tradeNumber}</span>
 
-        <span>${contract}</span>
+    const numberCell =
+        document.createElement("span");
 
-        <span>${action}</span>
+    numberCell.textContent =
+        tradeNumber;
 
-        <span>
-            ${
-                digitInput.style.display !== "none"
-                ? digit
-                : "—"
-            }
-        </span>
 
-        <span>$${stake.toFixed(2)}</span>
+    const contractCell =
+        document.createElement("span");
 
-        <span>PENDING</span>
+    contractCell.textContent =
+        contractSelect.value;
 
-        <span>—</span>
-    `;
+
+    const actionCell =
+        document.createElement("span");
+
+    actionCell.textContent =
+        action;
+
+
+    const digitCell =
+        document.createElement("span");
+
+    if (digitInput.style.display !== "none") {
+        digitCell.textContent =
+            digitInput.value;
+    } else {
+        digitCell.textContent =
+            "—";
+    }
+
+
+    const stakeCell =
+        document.createElement("span");
+
+    stakeCell.textContent =
+        "$" + stake.toFixed(2);
+
+
+    const resultCell =
+        document.createElement("span");
+
+    resultCell.textContent =
+        "PENDING";
+
+
+    const profitCell =
+        document.createElement("span");
+
+    profitCell.textContent =
+        "—";
+
+
+    row.appendChild(numberCell);
+    row.appendChild(contractCell);
+    row.appendChild(actionCell);
+    row.appendChild(digitCell);
+    row.appendChild(stakeCell);
+    row.appendChild(resultCell);
+    row.appendChild(profitCell);
+
 
     tradeHistory.appendChild(row);
+
+    return true;
 }
 
 
@@ -276,63 +346,62 @@ function executeTrade(action) {
     const stake =
         parseFloat(stakeInput.value);
 
+
     if (isNaN(stake) || stake <= 0) {
 
-        systemMessage.innerHTML = `
-            <p>TRADE REJECTED</p>
-            <p>Invalid stake amount.</p>
-        `;
+        systemMessage.textContent =
+            "TRADE REJECTED: INVALID STAKE";
 
         return;
     }
+
 
     if (stake > balance) {
 
-        systemMessage.innerHTML = `
-            <p>TRADE REJECTED</p>
-            <p>INSUFFICIENT BALANCE</p>
-            <p>BALANCE: $${balance.toFixed(2)}</p>
-        `;
+        systemMessage.textContent =
+            "TRADE REJECTED: INSUFFICIENT BALANCE";
 
         return;
     }
 
+
+    const added =
+        addTradeToHistory(action);
+
+
+    if (added === false) {
+        return;
+    }
+
+
     showTradeMessage(action);
-
-    addTradeToHistory(action);
 }
 
 
-if (matchButton) {
+matchButton.addEventListener(
+    "click",
+    function () {
 
-    matchButton.addEventListener(
-        "click",
-        function () {
-
-            executeTrade(
-                matchButton.textContent
-            );
-        }
-    );
-}
+        executeTrade(
+            matchButton.textContent
+        );
+    }
+);
 
 
-if (differButton) {
+differButton.addEventListener(
+    "click",
+    function () {
 
-    differButton.addEventListener(
-        "click",
-        function () {
-
-            executeTrade(
-                differButton.textContent
-            );
-        }
-    );
-}
+        executeTrade(
+            differButton.textContent
+        );
+    }
+);
 
 
 // ========================================
-// RESULT SYSTEM
+// RESULT
 // ========================================
 
 function updateLatestTradeResult(result) {
@@ -342,18 +411,19 @@ function updateLatestTradeResult(result) {
             ".history-row"
         );
 
+
     if (rows.length === 0) {
 
-        systemMessage.innerHTML = `
-            <p>NO TRADE AVAILABLE</p>
-            <p>STATUS: WAITING</p>
-        `;
+        systemMessage.textContent =
+            "NO TRADE AVAILABLE";
 
         return;
     }
 
+
     const latestRow =
         rows[rows.length - 1];
+
 
     const resultCell =
         latestRow.children[5];
@@ -361,29 +431,31 @@ function updateLatestTradeResult(result) {
     const profitCell =
         latestRow.children[6];
 
+
     if (resultCell.textContent !== "PENDING") {
 
-        systemMessage.innerHTML = `
-            <p>TRADE ALREADY COMPLETE</p>
-            <p>STATUS: ${resultCell.textContent}</p>
-        `;
+        systemMessage.textContent =
+            "LATEST TRADE ALREADY COMPLETE";
 
         return;
     }
 
-    const stakeText =
-        latestRow.children[4].textContent;
 
     const stake =
         parseFloat(
-            stakeText.replace("$", "")
+            latestRow.children[4]
+                .textContent
+                .replace("$", "")
         );
+
 
     let profitLoss = 0;
 
+
     if (result === "WIN") {
 
-        profitLoss = stake;
+        profitLoss =
+            stake;
 
         balance += stake;
         totalProfit += stake;
@@ -391,9 +463,11 @@ function updateLatestTradeResult(result) {
         winningTrades++;
     }
 
-    else {
 
-        profitLoss = -stake;
+    if (result === "LOSS") {
+
+        profitLoss =
+            -stake;
 
         balance -= stake;
         totalProfit -= stake;
@@ -401,72 +475,128 @@ function updateLatestTradeResult(result) {
         losingTrades++;
     }
 
+
     totalTrades++;
+
 
     resultCell.textContent =
         result;
 
-    profitCell.textContent =
-        profitLoss >= 0
-        ? "+$" + profitLoss.toFixed(2)
-        : "-$" + Math.abs(profitLoss).toFixed(2);
+
+    if (profitLoss >= 0) {
+
+        profitCell.textContent =
+            "+$" + profitLoss.toFixed(2);
+
+    } else {
+
+        profitCell.textContent =
+            "-$" + Math.abs(profitLoss).toFixed(2);
+    }
+
 
     updateAccountDisplay();
 
     updatePerformance(result, stake);
 
-    systemMessage.innerHTML = `
-        <p>TRADE #${tradeNumber}</p>
-        <p>RESULT: ${result}</p>
-        <p>P/L: ${
-            profitLoss >= 0
-            ? "+$" + profitLoss.toFixed(2)
-            : "-$" + Math.abs(profitLoss).toFixed(2)
-        }</p>
-        <p>BALANCE: $${balance.toFixed(2)}</p>
-        <p>STATUS: COMPLETE</p>
-    `;
-}
+
+    systemMessage.innerHTML = "";
+
+    const resultLine =
+        document.createElement("p");
+
+    resultLine.textContent =
+        "TRADE #" + tradeNumber;
+
+    systemMessage.appendChild(
+        resultLine
+    );
 
 
-// ========================================
-// WIN BUTTON
-// ========================================
+    const statusLine =
+        document.createElement("p");
 
-if (winButton) {
+    statusLine.textContent =
+        "RESULT: " + result;
 
-    winButton.addEventListener(
-        "click",
-        function () {
+    systemMessage.appendChild(
+        statusLine
+    );
 
-            updateLatestTradeResult(
-                "WIN"
-            );
-        }
+
+    const profitLine =
+        document.createElement("p");
+
+    if (profitLoss >= 0) {
+
+        profitLine.textContent =
+            "P/L: +$" +
+            profitLoss.toFixed(2);
+
+    } else {
+
+        profitLine.textContent =
+            "P/L: -$" +
+            Math.abs(profitLoss).toFixed(2);
+    }
+
+    systemMessage.appendChild(
+        profitLine
+    );
+
+
+    const balanceLine =
+        document.createElement("p");
+
+    balanceLine.textContent =
+        "BALANCE: $" +
+        balance.toFixed(2);
+
+    systemMessage.appendChild(
+        balanceLine
+    );
+
+
+    const completeLine =
+        document.createElement("p");
+
+    completeLine.textContent =
+        "STATUS: COMPLETE";
+
+    systemMessage.appendChild(
+        completeLine
     );
 }
 
 
 // ========================================
-// LOSS BUTTON
+// WIN / LOSS BUTTONS
 // ========================================
 
-if (lossButton) {
+winButton.addEventListener(
+    "click",
+    function () {
 
-    lossButton.addEventListener(
-        "click",
-        function () {
+        updateLatestTradeResult(
+            "WIN"
+        );
+    }
+);
 
-            updateLatestTradeResult(
-                "LOSS"
-            );
-        }
-    );
-}
+
+lossButton.addEventListener(
+    "click",
+    function () {
+
+        updateLatestTradeResult(
+            "LOSS"
+        );
+    }
+);
 
 
 // ========================================
-// PERFORMANCE SYSTEM
+// PERFORMANCE
 // ========================================
 
 function updatePerformance(
@@ -476,20 +606,24 @@ function updatePerformance(
 
     discipline += 0.3;
 
+
     const risk =
         (stake / balance) * 100;
 
+
     if (risk <= 10) {
+
         riskControl += 0.5;
-    }
 
-    else if (risk <= 20) {
+    } else if (risk <= 20) {
+
         riskControl += 0.2;
-    }
 
-    else {
+    } else {
+
         riskControl -= 0.5;
     }
+
 
     consistency =
         74 + Math.min(
@@ -497,23 +631,36 @@ function updatePerformance(
             20
         );
 
+
     discipline =
         Math.max(
             0,
-            Math.min(100, discipline)
+            Math.min(
+                100,
+                discipline
+            )
         );
+
 
     riskControl =
         Math.max(
             0,
-            Math.min(100, riskControl)
+            Math.min(
+                100,
+                riskControl
+            )
         );
+
 
     consistency =
         Math.max(
             0,
-            Math.min(100, consistency)
+            Math.min(
+                100,
+                consistency
+            )
         );
+
 
     updatePerformanceDisplay();
 }
@@ -530,33 +677,44 @@ function updatePerformanceDisplay() {
             ".stat"
         );
 
+
     if (stats.length < 3) {
         return;
     }
 
-    stats[0].querySelector("strong")
+
+    stats[0]
+        .querySelector("strong")
         .textContent =
         Math.round(discipline) + "%";
 
-    stats[0].querySelector(".progress div")
+
+    stats[0]
+        .querySelector(".progress div")
         .style.width =
         discipline + "%";
 
 
-    stats[1].querySelector("strong")
+    stats[1]
+        .querySelector("strong")
         .textContent =
         Math.round(riskControl) + "%";
 
-    stats[1].querySelector(".progress div")
+
+    stats[1]
+        .querySelector(".progress div")
         .style.width =
         riskControl + "%";
 
 
-    stats[2].querySelector("strong")
+    stats[2]
+        .querySelector("strong")
         .textContent =
         Math.round(consistency) + "%";
 
-    stats[2].querySelector(".progress div")
+
+    stats[2]
+        .querySelector(".progress div")
         .style.width =
         consistency + "%";
 }
@@ -564,31 +722,40 @@ function updatePerformanceDisplay() {
 
 // ========================================
 // MARKET ENGINE
-// SIMULATED DATA ONLY
+// SIMULATED DATA
 // ========================================
 
 function generateTick() {
 
-    if (!marketRunning) {
+    if (!marketSelect) {
         return;
     }
 
-    const marketName =
-        marketSelect
-        ? marketSelect.value
-        : "Volatility 100 Index";
 
-    const basePrice =
-        marketPrices[marketName] || 100000;
+    const market =
+        marketSelect.value;
+
+
+    let basePrice =
+        marketPrices[market];
+
+
+    if (!basePrice) {
+        basePrice = 100000;
+    }
+
 
     const movement =
         (Math.random() - 0.5) * 200;
 
+
     const price =
         basePrice + movement;
 
+
     const formattedPrice =
         price.toFixed(3);
+
 
     if (currentPrice) {
 
@@ -596,18 +763,30 @@ function generateTick() {
             formattedPrice;
     }
 
-    const digit =
+
+    const digits =
+        formattedPrice
+            .replace(".", "");
+
+
+    const lastDigit =
         parseInt(
-            formattedPrice
-                .replace(".", "")
-                .slice(-1)
+            digits.charAt(
+                digits.length - 1
+            )
         );
 
-    tickHistory.push(digit);
+
+    tickHistory.push(
+        lastDigit
+    );
+
 
     if (tickHistory.length > 100) {
+
         tickHistory.shift();
     }
+
 
     updateMarketAnalysis();
 }
@@ -623,118 +802,139 @@ function updateMarketAnalysis() {
         return;
     }
 
-    const total =
-        tickHistory.length;
 
     let even = 0;
     let odd = 0;
 
-    let over5 = 0;
-    let under5 = 0;
+    let over = 0;
+    let under = 0;
 
     const frequency =
-        Array(10).fill(0);
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-    tickHistory.forEach(
-        function (digit) {
 
-            frequency[digit]++;
+    for (
+        let i = 0;
+        i < tickHistory.length;
+        i++
+    ) {
 
-            if (digit % 2 === 0) {
-                even++;
-            } else {
-                odd++;
-            }
+        const digit =
+            tickHistory[i];
 
-            if (digit > 5) {
-                over5++;
-            } else {
-                under5++;
-            }
+
+        frequency[digit]++;
+
+
+        if (digit % 2 === 0) {
+            even++;
+        } else {
+            odd++;
         }
-    );
 
 
-    const mostFrequent =
-        frequency.indexOf(
-            Math.max(...frequency)
-        );
+        if (digit > 5) {
+            over++;
+        } else {
+            under++;
+        }
+    }
 
 
-    const analysisCards =
+    let mostFrequent =
+        0;
+
+
+    for (
+        let i = 1;
+        i < 10;
+        i++
+    ) {
+
+        if (
+            frequency[i] >
+            frequency[mostFrequent]
+        ) {
+
+            mostFrequent =
+                i;
+        }
+    }
+
+
+    const total =
+        tickHistory.length;
+
+
+    const cards =
         document.querySelectorAll(
             ".analysis-card"
         );
 
-    if (analysisCards.length < 4) {
+
+    if (cards.length < 4) {
         return;
     }
 
 
-    // DIGIT FREQUENCY
+    const evenPercent =
+        (even / total) * 100;
 
-    analysisCards[0]
+
+    const oddPercent =
+        (odd / total) * 100;
+
+
+    const overPercent =
+        (over / total) * 100;
+
+
+    const underPercent =
+        (under / total) * 100;
+
+
+    cards[0]
         .querySelector("strong")
         .textContent =
         mostFrequent;
 
 
-    analysisCards[0]
+    cards[0]
         .querySelector("small")
         .textContent =
         frequency[mostFrequent] +
         " occurrences";
 
 
-    // EVEN / ODD
-
-    const evenPercent =
-        (even / total) * 100;
-
-    const oddPercent =
-        (odd / total) * 100;
-
-
-    analysisCards[1]
+    cards[1]
         .querySelector("strong")
         .textContent =
         evenPercent.toFixed(1) +
         "% EVEN";
 
 
-    analysisCards[1]
+    cards[1]
         .querySelector("small")
         .textContent =
         oddPercent.toFixed(1) +
         "% ODD";
 
 
-    // OVER / UNDER
-
-    const overPercent =
-        (over5 / total) * 100;
-
-    const underPercent =
-        (under5 / total) * 100;
-
-
-    analysisCards[2]
+    cards[2]
         .querySelector("strong")
         .textContent =
         overPercent.toFixed(1) +
         "% OVER";
 
 
-    analysisCards[2]
+    cards[2]
         .querySelector("small")
         .textContent =
         underPercent.toFixed(1) +
         "% UNDER";
 
 
-    // MATCH / DIFFER
-
-    analysisCards[3]
+    cards[3]
         .querySelector("strong")
         .textContent =
         frequency[mostFrequent] +
@@ -742,11 +942,13 @@ function updateMarketAnalysis() {
         total;
 
 
-    analysisCards[3]
+    cards[3]
         .querySelector("small")
         .textContent =
         "Latest digit: " +
-        tickHistory[tickHistory.length - 1];
+        tickHistory[
+            tickHistory.length - 1
+        ];
 }
 
 
@@ -760,18 +962,21 @@ if (marketSelect) {
         "change",
         function () {
 
-            const marketName =
+            const market =
                 marketSelect.value;
 
+
             const volatility =
-                marketName
+                market
                     .replace(" Index", "")
                     .toUpperCase();
+
 
             const volatilityDisplay =
                 document.querySelector(
                     ".market-volatility"
                 );
+
 
             if (volatilityDisplay) {
 
@@ -779,7 +984,9 @@ if (marketSelect) {
                     volatility;
             }
 
+
             tickHistory = [];
+
 
             if (currentPrice) {
 
@@ -787,11 +994,31 @@ if (marketSelect) {
                     "0.000";
             }
 
-            systemMessage.innerHTML = `
-                <p>MARKET SELECTED</p>
-                <p>${marketName}</p>
-                <p>STATUS: SIMULATION RUNNING</p>
-            `;
+
+            systemMessage.innerHTML = "";
+
+
+            const marketLine =
+                document.createElement("p");
+
+            marketLine.textContent =
+                "MARKET SELECTED: " +
+                market;
+
+            systemMessage.appendChild(
+                marketLine
+            );
+
+
+            const statusLine =
+                document.createElement("p");
+
+            statusLine.textContent =
+                "STATUS: SIMULATION RUNNING";
+
+            systemMessage.appendChild(
+                statusLine
+            );
         }
     );
 }
@@ -823,5 +1050,6 @@ console.log(
     "MARKET ENGINE: SIMULATED"
 );
 ```
+
 
 
