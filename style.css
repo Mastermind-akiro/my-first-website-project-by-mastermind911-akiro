@@ -1,8 +1,12 @@
 ```css
-/* ================================
-   SYSTEM TERMINAL
-   Jinwoo × Class Ranking
-================================ */
+/* =========================================================
+   TRADECORE — PROFESSIONAL TRADING WORKSPACE
+   ========================================================= */
+
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
 
 * {
     box-sizing: border-box;
@@ -10,292 +14,838 @@
     padding: 0;
 }
 
-body {
-    background: #080b10;
-    color: #d9e0e8;
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
+:root {
+    --bg: #080b0f;
+    --panel: #0d1218;
+    --panel-2: #10161d;
+    --panel-3: #080d12;
+
+    --border: #202832;
+    --border-light: #2a333d;
+
+    --text: #e4e9ee;
+    --muted: #78838f;
+    --dim: #56616d;
+
+    --accent: #c7d0d9;
+    --green: #7fd6a3;
+    --red: #df8585;
+    --blue: #8faed0;
 }
 
-/* ================================
-   TOP BAR
-================================ */
+
+/* =========================================================
+   BODY
+   ========================================================= */
+
+body {
+    background: var(--bg);
+    color: var(--text);
+
+    font-family:
+        Inter,
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    min-height: 100vh;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   TOP NAVIGATION
+   ========================================================= */
 
 .top-bar {
-    min-height: 90px;
-    padding: 20px 35px;
-    border-bottom: 1px solid #27303a;
-    background: #0d1117;
+    min-height: 72px;
+
+    padding: 0 30px;
+
+    background: rgba(10, 14, 19, 0.96);
+
+    border-bottom: 1px solid var(--border);
 
     display: flex;
-    justify-content: space-between;
     align-items: center;
+
+    gap: 35px;
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-.top-bar h1 {
-    font-size: 22px;
+
+/* BRAND */
+
+.brand {
+    min-width: 190px;
+}
+
+.brand h1 {
+    font-size: 18px;
+
+    font-weight: 700;
+
     letter-spacing: 3px;
+
     color: #ffffff;
 }
 
-.top-bar p {
-    margin-top: 6px;
-    font-size: 11px;
-    letter-spacing: 2px;
-    color: #707b88;
+.brand span {
+    display: block;
+
+    margin-top: 2px;
+
+    font-size: 8px;
+
+    letter-spacing: 1.5px;
+
+    color: var(--dim);
 }
 
-.player-info {
+
+/* NAV */
+
+.main-nav {
     display: flex;
-    gap: 25px;
-    font-size: 12px;
-    letter-spacing: 1px;
-    color: #9ca7b3;
+
+    align-items: center;
+
+    gap: 4px;
+
+    flex: 1;
+
+    overflow-x: auto;
 }
 
-/* ================================
-   DASHBOARD
-================================ */
+.main-nav a {
+    padding: 26px 12px;
+
+    color: var(--muted);
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    white-space: nowrap;
+
+    border-bottom: 2px solid transparent;
+
+    transition: 0.2s;
+}
+
+.main-nav a:hover {
+    color: #ffffff;
+}
+
+.main-nav a.active {
+    color: #ffffff;
+
+    border-bottom-color: var(--accent);
+}
+
+
+/* ACCOUNT */
+
+.account-area {
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    white-space: nowrap;
+}
+
+.market-status {
+    font-size: 9px;
+
+    letter-spacing: 1px;
+
+    color: var(--green);
+}
+
+.account-balance {
+    padding: 9px 13px;
+
+    background: #111820;
+
+    border: 1px solid var(--border-light);
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   MAIN DASHBOARD
+   ========================================================= */
 
 .dashboard {
     width: 94%;
-    max-width: 1400px;
-    margin: 30px auto;
+
+    max-width: 1500px;
+
+    margin: 25px auto 50px;
 
     display: grid;
-    gap: 18px;
+
+    gap: 16px;
 }
 
-/* ================================
-   GENERAL PANELS
-================================ */
+
+/* =========================================================
+   COMMON SECTION
+   ========================================================= */
 
 .dashboard section {
-    background: #0d1218;
-    border: 1px solid #242d36;
-    padding: 22px;
+    background: var(--panel);
+
+    border: 1px solid var(--border);
+
+    padding: 20px;
 }
 
 .dashboard h2 {
-    font-size: 13px;
-    letter-spacing: 2px;
-    color: #aeb8c3;
+    font-size: 15px;
+
+    font-weight: 500;
+
+    color: var(--text);
+}
+
+.section-label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 9px;
+
+    letter-spacing: 1.8px;
+
+    color: var(--dim);
+}
+
+
+/* =========================================================
+   WELCOME
+   ========================================================= */
+
+.welcome-panel {
+    min-height: 115px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    background:
+        linear-gradient(
+            110deg,
+            #0f151c,
+            #0b1016
+        ) !important;
+}
+
+.welcome-panel h2 {
+    font-size: 22px;
+
+    margin-bottom: 5px;
+}
+
+.welcome-panel p {
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+.workspace-status {
+    text-align: right;
+}
+
+.workspace-status span {
+    display: block;
+
+    font-size: 8px;
+
+    letter-spacing: 1.5px;
+
+    color: var(--dim);
+
+    margin-bottom: 6px;
+}
+
+.workspace-status strong {
+    font-size: 11px;
+
+    letter-spacing: 1px;
+
+    color: var(--green);
+}
+
+
+/* =========================================================
+   SECTION HEADING
+   ========================================================= */
+
+.section-heading {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
     margin-bottom: 20px;
 }
 
-/* ================================
-   ACCOUNT
-================================ */
+.account-id {
+    font-size: 9px;
+
+    letter-spacing: 1px;
+
+    color: var(--dim);
+}
+
+
+/* =========================================================
+   ACCOUNT OVERVIEW
+   ========================================================= */
 
 .account-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 10px;
 }
 
-.account-grid div {
-    border: 1px solid #202932;
-    background: #090d12;
-    padding: 18px;
+.metric-card {
+    min-height: 95px;
+
+    padding: 17px;
+
+    background: var(--panel-3);
+
+    border: 1px solid var(--border);
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
 }
 
-.account-grid span,
-.stat span {
-    display: block;
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: #6f7b88;
-    margin-bottom: 8px;
+.metric-card span {
+    font-size: 9px;
+
+    letter-spacing: 1.5px;
+
+    color: var(--dim);
 }
 
-.account-grid strong {
-    font-size: 22px;
-    color: #f1f4f7;
+.metric-card strong {
+    font-size: 21px;
+
+    font-weight: 500;
+
+    color: #f0f3f6;
 }
 
-/* ================================
+
+/* =========================================================
    TRADING AREA
-================================ */
+   ========================================================= */
 
 .trading-area {
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 18px;
+
+    grid-template-columns:
+        minmax(0, 2fr)
+        minmax(300px, 1fr);
+
+    gap: 16px;
+
     background: transparent !important;
+
     border: none !important;
+
     padding: 0 !important;
 }
 
-/* ================================
-   CHART
-================================ */
+
+/* =========================================================
+   MARKET PANEL
+   ========================================================= */
 
 .chart-panel {
-    min-height: 400px;
+    min-height: 470px;
 }
 
 .panel-header {
     display: flex;
+
     justify-content: space-between;
+
+    align-items: flex-start;
+
+    margin-bottom: 15px;
 }
 
-.panel-header span {
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: #66717d;
+.market-controls {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
 }
+
+.market-controls select {
+    background: var(--panel-3);
+
+    border: 1px solid var(--border-light);
+
+    color: var(--text);
+
+    padding: 8px 10px;
+
+    font-size: 10px;
+
+    outline: none;
+}
+
+.market-volatility {
+    padding: 8px 10px;
+
+    background: #111820;
+
+    border: 1px solid var(--border);
+
+    color: var(--muted);
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   CHART
+   ========================================================= */
 
 .chart {
-    height: 320px;
+    height: 350px;
+
     position: relative;
+
     overflow: hidden;
 
-    background:
-        linear-gradient(#161d25 1px, transparent 1px),
-        linear-gradient(90deg, #161d25 1px, transparent 1px);
+    background: #080d12;
 
-    background-size: 50px 50px;
-
-    border: 1px solid #202932;
+    border: 1px solid var(--border);
 }
 
-/* Fake chart line */
+.chart-grid {
+    position: absolute;
+
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(100, 115, 130, 0.08) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(100, 115, 130, 0.08) 1px,
+            transparent 1px
+        );
+
+    background-size: 45px 45px;
+}
+
+.chart-info {
+    position: absolute;
+
+    top: 15px;
+
+    left: 15px;
+
+    z-index: 2;
+}
+
+.chart-info span {
+    display: block;
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+
+    color: var(--dim);
+}
+
+.chart-info strong {
+    font-size: 17px;
+
+    font-weight: 500;
+
+    color: #dfe5ea;
+}
+
+
+/* CHART LINE */
 
 .chart-line {
     position: absolute;
 
-    width: 700px;
-    height: 180px;
+    width: 85%;
 
-    left: 30px;
-    top: 90px;
+    height: 120px;
 
-    border-top: 2px solid #b9c4cf;
+    left: 5%;
 
-    transform: rotate(-8deg);
+    top: 130px;
+
+    border-top: 2px solid #aeb8c2;
+
+    transform:
+        rotate(-6deg);
+
+    opacity: 0.7;
 }
 
-/* ================================
-   CONTRACT
-================================ */
+
+/* =========================================================
+   MARKET INFO
+   ========================================================= */
+
+.market-info {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    margin-top: 10px;
+
+    border: 1px solid var(--border);
+}
+
+.market-info div {
+    padding: 11px 13px;
+
+    border-right: 1px solid var(--border);
+}
+
+.market-info div:last-child {
+    border-right: none;
+}
+
+.market-info span {
+    display: block;
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+
+    color: var(--dim);
+
+    margin-bottom: 4px;
+}
+
+.market-info strong {
+    font-size: 10px;
+
+    font-weight: 500;
+
+    color: #c9d1d9;
+}
+
+.market-info .online {
+    color: var(--green);
+}
+
+
+/* =========================================================
+   MANUAL TRADER
+   ========================================================= */
 
 .contract-panel {
     display: flex;
+
     flex-direction: column;
 }
 
 .contract-panel label {
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: #6f7b88;
-    margin: 10px 0 7px;
+    margin: 12px 0 6px;
+
+    font-size: 8px;
+
+    letter-spacing: 1.5px;
+
+    color: var(--dim);
 }
 
 .contract-panel select,
 .contract-panel input {
     width: 100%;
-    padding: 13px;
 
-    background: #080c11;
-    color: #dce3ea;
+    padding: 12px;
 
-    border: 1px solid #2a333d;
+    background: var(--panel-3);
+
+    color: var(--text);
+
+    border: 1px solid var(--border-light);
+
     outline: none;
+
+    font-size: 12px;
 }
 
 .contract-panel select:focus,
 .contract-panel input:focus {
-    border-color: #6e7b88;
+    border-color: #596674;
 }
 
-/* ================================
+
+/* =========================================================
    TRADE BUTTONS
-================================ */
+   ========================================================= */
 
 .trade-buttons {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
 
-    margin-top: 25px;
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 8px;
+
+    margin-top: 22px;
 }
 
 .trade-buttons button {
-    padding: 15px;
+    padding: 14px;
 
-    border: 1px solid #4a5662;
-    background: #111820;
+    border: 1px solid #45515d;
 
-    color: #dce3ea;
+    background: #131a21;
+
+    color: #dce3e9;
 
     cursor: pointer;
 
+    font-size: 10px;
+
+    font-weight: 600;
+
     letter-spacing: 1px;
-    font-weight: bold;
+
+    transition: 0.2s;
 }
 
 .trade-buttons button:hover {
     background: #1a222b;
+
+    border-color: #687582;
 }
 
-/* ================================
-   SYSTEM ANALYSIS
-================================ */
+.match-btn:hover {
+    color: var(--green);
+}
+
+.differ-btn:hover {
+    color: var(--red);
+}
+
+
+/* =========================================================
+   EXECUTION INFO
+   ========================================================= */
+
+.execution-info {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 8px;
+
+    margin-top: 15px;
+}
+
+.execution-info div {
+    padding: 12px;
+
+    background: var(--panel-3);
+
+    border: 1px solid var(--border);
+}
+
+.execution-info span {
+    display: block;
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+
+    color: var(--dim);
+
+    margin-bottom: 4px;
+}
+
+.execution-info strong {
+    font-size: 11px;
+
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   ANALYSIS
+   ========================================================= */
+
+.analysis-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 10px;
+}
+
+.analysis-card {
+    min-height: 110px;
+
+    padding: 15px;
+
+    background: var(--panel-3);
+
+    border: 1px solid var(--border);
+}
+
+.analysis-card span {
+    display: block;
+
+    font-size: 8px;
+
+    letter-spacing: 1.3px;
+
+    color: var(--dim);
+
+    margin-bottom: 15px;
+}
+
+.analysis-card strong {
+    display: block;
+
+    font-size: 20px;
+
+    font-weight: 500;
+
+    margin-bottom: 5px;
+}
+
+.analysis-card small {
+    font-size: 9px;
+
+    color: var(--dim);
+}
+
+
+/* =========================================================
+   PERFORMANCE
+   ========================================================= */
+
+.performance-panel {
+    background: var(--panel) !important;
+}
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
     gap: 25px;
+}
+
+.stat span {
+    display: block;
+
+    font-size: 9px;
+
+    letter-spacing: 1.5px;
+
+    color: var(--dim);
+
+    margin-bottom: 7px;
 }
 
 .stat strong {
     display: block;
+
+    font-size: 15px;
+
+    font-weight: 500;
+
     margin-bottom: 8px;
 }
 
-.progress,
-.xp-bar {
+.progress {
     width: 100%;
-    height: 6px;
+
+    height: 5px;
+
     background: #1b222a;
+
     overflow: hidden;
 }
 
-.progress div,
-.xp-bar div {
+.progress div {
     height: 100%;
-    background: #aab4be;
+
+    background: #9ca8b3;
 }
 
-/* ================================
-   CLASS RANKING
-================================ */
 
-.ranking-panel {
-    padding-bottom: 10px !important;
+/* =========================================================
+   SYSTEM / EXECUTION STATUS
+   ========================================================= */
+
+.system-message-panel {
+    border-left: 2px solid #596674 !important;
 }
 
-.ranking-row {
-    display: grid;
-    grid-template-columns: 80px 1fr 100px;
+#systemMessage {
+    min-height: 105px;
 
-    padding: 15px;
+    padding: 16px;
 
-    border-top: 1px solid #202832;
+    background: var(--panel-3);
 
-    font-size: 13px;
+    border: 1px solid var(--border);
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    letter-spacing: 0.8px;
+
+    line-height: 1.8;
 }
 
-.ranking-row strong {
-    text-align: right;
+#systemMessage p {
+    margin: 2px 0;
 }
 
-.current-player {
-    background: #151b22;
-    border-left: 2px solid #aeb8c3;
-}/* ================================
+
+/* =========================================================
    TRADE HISTORY
-================================ */
+   ========================================================= */
 
 .history-panel {
     overflow-x: auto;
@@ -303,119 +853,173 @@ body {
 
 .history-header,
 .history-row {
-    min-width: 700px;
+    min-width: 800px;
 
     display: grid;
-    grid-template-columns: 40px 2fr 1fr 70px 90px 100px;
+
+    grid-template-columns:
+        40px
+        2fr
+        1fr
+        70px
+        90px
+        100px
+        90px;
 
     gap: 15px;
+
     align-items: center;
 }
 
 .history-header {
     padding: 12px 15px;
 
-    background: #080c11;
-    border: 1px solid #202932;
+    background: var(--panel-3);
 
-    font-size: 10px;
+    border: 1px solid var(--border);
+
+    font-size: 8px;
+
     letter-spacing: 1px;
-    color: #6f7b88;
+
+    color: var(--dim);
 }
 
 .history-row {
-    padding: 14px 15px;
+    padding: 13px 15px;
 
-    border-left: 1px solid #202932;
-    border-right: 1px solid #202932;
-    border-bottom: 1px solid #202932;
+    border-left: 1px solid var(--border);
 
-    font-size: 12px;
+    border-right: 1px solid var(--border);
+
+    border-bottom: 1px solid var(--border);
+
+    font-size: 11px;
+
     color: #c5ced7;
 }
 
 .history-row span:last-child {
-    font-weight: bold;
+    font-weight: 600;
 }
 
-/* ================================
-   SYSTEM MESSAGE
-================================ */
 
-.system-message-panel {
-    border-left: 2px solid #aeb8c3 !important;
+/* =========================================================
+   RESULT CONTROLS
+   ========================================================= */
+
+.result-controls {
+    display: flex;
+
+    gap: 8px;
+
+    margin-top: 15px;
 }
 
-#systemMessage {
-    background: #080c11;
-    border: 1px solid #202932;
-    padding: 18px;
-    min-height: 100px;
+.result-controls button {
+    padding: 9px 15px;
 
-    font-size: 12px;
+    background: #111820;
+
+    border: 1px solid var(--border-light);
+
+    color: var(--muted);
+
+    cursor: pointer;
+
+    font-size: 8px;
+
     letter-spacing: 1px;
-    line-height: 1.8;
-
-    color: #aeb8c3;
 }
 
-#systemMessage p {
-    margin: 3px 0;
+.result-controls button:hover {
+    color: #ffffff;
+
+    border-color: #64717e;
 }
 
-/* ================================
-   QUESTS
-================================ */
 
-.quest-panel p {
-    padding: 10px 0;
-    border-bottom: 1px solid #1b232c;
+/* =========================================================
+   RISK MANAGEMENT
+   ========================================================= */
 
-    font-size: 13px;
+.risk-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 10px;
 }
 
-.quest-panel b {
-    float: right;
-    color: #9ba6b2;
+.risk-grid div {
+    padding: 15px;
+
+    background: var(--panel-3);
+
+    border: 1px solid var(--border);
 }
 
-.xp {
-    margin-top: 20px;
-}
-
-.xp span {
+.risk-grid span {
     display: block;
-    margin-bottom: 8px;
 
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: #737e8a;
+    font-size: 8px;
+
+    letter-spacing: 1.2px;
+
+    color: var(--dim);
+
+    margin-bottom: 8px;
 }
 
-/* ================================
+.risk-grid strong {
+    font-size: 14px;
+
+    font-weight: 500;
+}
+
+.risk-grid .safe {
+    color: var(--green);
+}
+
+
+/* =========================================================
    FOOTER
-================================ */
+   ========================================================= */
 
 footer {
     padding: 20px 5px;
 
     display: flex;
-    justify-content: space-between;
+
     align-items: center;
 
-    font-size: 10px;
-    letter-spacing: 2px;
+    justify-content: space-between;
 
-    color: #626d79;
+    gap: 20px;
+
+    color: var(--dim);
+
+    font-size: 9px;
+
+    letter-spacing: 0.8px;
+}
+
+footer strong {
+    color: #aeb8c3;
+
+    margin-right: 8px;
 }
 
 footer nav {
     display: flex;
-    gap: 20px;
+
+    gap: 18px;
 }
 
 footer a {
-    color: #78838e;
+    color: var(--dim);
+
     text-decoration: none;
 }
 
@@ -423,40 +1027,161 @@ footer a:hover {
     color: #ffffff;
 }
 
-/* ================================
-   MOBILE
-================================ */
+.footer-status {
+    color: var(--green);
+}
 
-@media (max-width: 800px) {
+
+/* =========================================================
+   RESPONSIVE — TABLET
+   ========================================================= */
+
+@media (max-width: 1050px) {
 
     .top-bar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
+        gap: 20px;
     }
 
-    .player-info {
-        flex-wrap: wrap;
-        gap: 12px;
+    .brand {
+        min-width: 150px;
     }
 
-    .account-grid {
-        grid-template-columns: 1fr;
+    .main-nav a {
+        padding-left: 8px;
+        padding-right: 8px;
     }
 
     .trading-area {
         grid-template-columns: 1fr;
     }
 
+    .account-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .analysis-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .risk-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .top-bar {
+        position: relative;
+
+        padding: 15px;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 12px;
+    }
+
+    .brand {
+        min-width: 0;
+    }
+
+    .main-nav {
+        order: 3;
+
+        overflow-x: auto;
+    }
+
+    .main-nav a {
+        padding: 10px 9px;
+
+        border-bottom: none;
+    }
+
+    .main-nav a.active {
+        background: #151c24;
+
+        border-bottom: none;
+    }
+
+    .account-area {
+        justify-content: space-between;
+    }
+
+    .dashboard {
+        width: 96%;
+
+        margin-top: 15px;
+    }
+
+    .welcome-panel {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 20px;
+    }
+
+    .workspace-status {
+        text-align: left;
+    }
+
+    .account-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .analysis-grid {
+        grid-template-columns: 1fr;
+    }
+
     .stats-grid {
         grid-template-columns: 1fr;
+
+        gap: 18px;
+    }
+
+    .risk-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .market-controls {
+        flex-direction: column;
+
+        align-items: flex-end;
+    }
+
+    .market-info {
+        grid-template-columns: 1fr;
+    }
+
+    .market-info div {
+        border-right: none;
+
+        border-bottom: 1px solid var(--border);
+    }
+
+    .market-info div:last-child {
+        border-bottom: none;
     }
 
     footer {
         flex-direction: column;
-        gap: 20px;
+
         align-items: flex-start;
+    }
+
+    footer nav {
+        flex-wrap: wrap;
     }
 }
 ```
+
 
