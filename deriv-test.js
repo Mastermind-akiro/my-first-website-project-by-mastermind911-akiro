@@ -37,6 +37,7 @@ derivSocket.onmessage = function (event) {
     const price = Number(data.tick.quote);
 
     console.log("LIVE PRICE:", price);
+    console.log("RAW TICK:", data.tick);
 
     // Update visible price
     if (livePriceDisplay) {
