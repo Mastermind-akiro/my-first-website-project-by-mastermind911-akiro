@@ -7,7 +7,47 @@ const derivSocket = new WebSocket(
 
 const livePriceDisplay = document.getElementById("currentPrice");
 const liveSystemMessage = document.getElementById("systemMessage");
+const marketChart = document.getElementById("marketChart");
+const chartContext = marketChart ? marketChart.getContext("2d") : null;
+
 const liveDigitHistory = [];
+const priceHistory = [];
+function drawMarketChart() {
+
+    if (!chartContext || !marketChart || priceHistory.length < 2) {
+        return;
+    }
+
+    const width = marketChart.width;
+    const height = marketChart.height;
+
+    chartContext.clearRect(0, 0, width, height);
+
+    const minPrice = Math.min(...priceHistory);
+    const maxPrice = Math.max(...priceHistory);
+
+    const range = maxPrice - minPrice || 1;
+
+    chartContext.beginPath();
+
+    for (let i = 0; i < priceHistory.length; i++) {
+
+        const x =
+            (i / (priceHistory.length - 1)) * width;
+
+        const y =
+            height -
+            ((priceHistory[i] - minPrice) / range) * height;
+
+        if (i === 0) {
+            chartContext.moveTo(x, y);
+        } else {
+            chartContext.lineTo(x, y);
+        }
+    }
+
+    chartContext.stroke();
+}
 
 derivSocket.onopen = function () {
 
@@ -38,6 +78,13 @@ derivSocket.onmessage = function (event) {
     const price = Number(data.tick.quote);
 
     console.log("LIVE PRICE:", price);
+    priceHistory.push(price);
+
+if (priceHistory.length > 100) {
+    priceHistory.shift();
+}
+
+drawMarketChart();
 
     // Update visible price
     if (livePriceDisplay) {
