@@ -1,4 +1,4 @@
-```javascript
+
 // TRADECORE SCRIPT
 
 const contract = document.getElementById("contract");
