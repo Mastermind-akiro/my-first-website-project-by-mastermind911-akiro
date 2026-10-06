@@ -10,6 +10,8 @@ const liveSystemMessage = document.getElementById("systemMessage");
 const tickHistoryDisplay = document.getElementById("tickHistory");
 const latestTickDisplay = document.getElementById("latestTick");
 const tickCountDisplay = document.querySelector(".tick-count");
+const digitFrequencyValue = document.getElementById("digitFrequencyValue");
+const digitFrequencyStatus = document.getElementById("digitFrequencyStatus");
 
 const marketChart = document.getElementById("marketChart");
 const chartContext = marketChart ? marketChart.getContext("2d") : null;
@@ -101,6 +103,33 @@ function updateTickHistory() {
 
         tickCountDisplay.textContent =
             marketTickHistory.length + " / 500";
+    }
+}
+function updateDigitFrequency() {
+
+    if (!digitFrequencyValue || marketTickHistory.length === 0) {
+        return;
+    }
+
+    const digitCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+    marketTickHistory.forEach(function (digit) {
+        digitCounts[digit]++;
+    });
+
+    const latestDigit = marketTickHistory[
+        marketTickHistory.length - 1
+    ];
+
+    const frequency =
+        (digitCounts[latestDigit] / marketTickHistory.length) * 100;
+
+    digitFrequencyValue.textContent =
+        latestDigit + " → " + frequency.toFixed(1) + "%";
+
+    if (digitFrequencyStatus) {
+        digitFrequencyStatus.textContent =
+            "Based on " + marketTickHistory.length + " ticks";
     }
 }
 
@@ -196,8 +225,13 @@ derivSocket.onmessage = function (event) {
     if (marketTickHistory.length > 500) {
         marketTickHistory.shift();
     }
+updateTickHistory();
+updateDigitFrequency();
 
-    updateTickHistory();
+
+// =====================================================
+// SYSTEM STATUS
+// =====================================================
 
 
     // =====================================================
