@@ -5,51 +5,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>System Terminal</title>
+    <title>TradeCore | Trading Workspace</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+    <!-- =========================================
+         TOP NAVIGATION
+    ========================================== -->
+
     <header class="top-bar">
 
-        <div>
-            <h1>◈ SYSTEM TERMINAL</h1>
-            <p>TRADING & CLASS RANKING SYSTEM</p>
+        <div class="brand">
+            <h1>TRADECORE</h1>
+            <span>PROFESSIONAL TRADING WORKSPACE</span>
         </div>
 
-        <div class="player-info">
-            <span>PLAYER: A-01</span>
-            <span>RANK: #07</span>
-            <span>LEVEL: 07</span>
+        <nav class="main-nav">
+            <a href="#" class="active">Dashboard</a>
+            <a href="#">Markets</a>
+            <a href="#">Analysis</a>
+            <a href="#">Manual Trader</a>
+            <a href="#">Bots</a>
+            <a href="#">Journal</a>
+            <a href="#">Risk</a>
+        </nav>
+
+        <div class="account-area">
+            <span class="market-status">
+                ● MARKETS ONLINE
+            </span>
+
+            <span class="account-balance">
+                $8.35
+            </span>
         </div>
 
     </header>
 
 
+    <!-- =========================================
+         MAIN WORKSPACE
+    ========================================== -->
+
     <main class="dashboard">
 
-        <!-- ACCOUNT -->
+
+        <!-- =====================================
+             WELCOME
+        ====================================== -->
+
+        <section class="welcome-panel">
+
+            <div>
+                <span class="section-label">DASHBOARD</span>
+
+                <h2>
+                    Welcome back
+                </h2>
+
+                <p>
+                    Monitor markets, analyze opportunities
+                    and manage your trading activity.
+                </p>
+            </div>
+
+            <div class="workspace-status">
+                <span>ACCOUNT STATUS</span>
+                <strong>ACTIVE</strong>
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             ACCOUNT OVERVIEW
+        ====================================== -->
+
         <section class="account-panel">
 
-            <h2>ACCOUNT STATUS</h2>
+            <div class="section-heading">
+                <div>
+                    <span class="section-label">
+                        ACCOUNT OVERVIEW
+                    </span>
+
+                    <h2>Trading Performance</h2>
+                </div>
+
+                <span class="account-id">
+                    ACCOUNT A-01
+                </span>
+            </div>
+
 
             <div class="account-grid">
 
-                <div>
+                <div class="metric-card">
+
                     <span>BALANCE</span>
+
                     <strong>$8.35</strong>
+
                 </div>
 
-                <div>
-                    <span>PROFIT</span>
+
+                <div class="metric-card">
+
+                    <span>TODAY'S P/L</span>
+
                     <strong>+$2.35</strong>
+
                 </div>
 
-                <div>
+
+                <div class="metric-card">
+
                     <span>WIN RATE</span>
+
                     <strong>68.4%</strong>
+
+                </div>
+
+
+                <div class="metric-card">
+
+                    <span>TOTAL TRADES</span>
+
+                    <strong>0</strong>
+
                 </div>
 
             </div>
@@ -57,40 +143,178 @@
         </section>
 
 
-        <!-- TRADING AREA -->
+        <!-- =====================================
+             MARKET + TRADER
+        ====================================== -->
+
         <section class="trading-area">
 
-            <!-- CHART -->
+
+            <!-- MARKET -->
+
             <div class="chart-panel">
 
                 <div class="panel-header">
-                    <h2>PRICE CHART</h2>
-                    <span>VOLATILITY 100</span>
+
+                    <div>
+                        <span class="section-label">
+                            MARKET
+                        </span>
+
+                        <h2>
+                            Live Market
+                        </h2>
+                    </div>
+
+
+                    <div class="market-controls">
+
+                        <select id="marketSelect">
+
+                            <option>
+                                Volatility 100 Index
+                            </option>
+
+                            <option>
+                                Volatility 75 Index
+                            </option>
+
+                            <option>
+                                Volatility 50 Index
+                            </option>
+
+                            <option>
+                                Volatility 25 Index
+                            </option>
+
+                        </select>
+
+
+                        <span class="market-volatility">
+                            VOLATILITY 100
+                        </span>
+
+                    </div>
+
                 </div>
 
+
+                <!-- CHART -->
+
                 <div class="chart">
+
+                    <div class="chart-info">
+
+                        <span>PRICE</span>
+
+                        <strong id="currentPrice">
+                            0.000
+                        </strong>
+
+                    </div>
+
+
+                    <div class="chart-grid"></div>
+
                     <div class="chart-line"></div>
+
+                </div>
+
+
+                <!-- MARKET INFORMATION -->
+
+                <div class="market-info">
+
+                    <div>
+
+                        <span>MARKET</span>
+
+                        <strong>
+                            VOLATILITY 100
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>STATUS</span>
+
+                        <strong class="online">
+                            LIVE
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>TICK SPEED</span>
+
+                        <strong>
+                            REALTIME
+                        </strong>
+
+                    </div>
+
+
                 </div>
 
             </div>
 
 
-            <!-- CONTRACT -->
+
+            <!-- MANUAL TRADER -->
+
             <div class="contract-panel">
 
-                <h2>CONTRACT SYSTEM</h2>
+                <div class="panel-header">
 
-                <label for="contract">CONTRACT TYPE</label>
+                    <div>
+
+                        <span class="section-label">
+                            TRADING
+                        </span>
+
+                        <h2>
+                            Manual Trader
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <label for="contract">
+                    CONTRACT TYPE
+                </label>
+
 
                 <select id="contract">
-                    <option>Matches / Differs</option>
-                    <option>Even / Odd</option>
-                    <option>Over / Under</option>
-                    <option>Rise / Fall</option>
+
+                    <option>
+                        Matches / Differs
+                    </option>
+
+                    <option>
+                        Even / Odd
+                    </option>
+
+                    <option>
+                        Over / Under
+                    </option>
+
+                    <option>
+                        Rise / Fall
+                    </option>
+
                 </select>
 
 
-                <label for="digit">DIGIT</label>
+                <label for="digit">
+                    DIGIT
+                </label>
+
 
                 <input
                     type="number"
@@ -101,7 +325,10 @@
                 >
 
 
-                <label for="stake">STAKE</label>
+                <label for="stake">
+                    STAKE
+                </label>
+
 
                 <input
                     type="number"
@@ -124,40 +351,192 @@
 
                 </div>
 
+
+                <div class="execution-info">
+
+                    <div>
+                        <span>STAKE</span>
+                        <strong>$1.00</strong>
+                    </div>
+
+                    <div>
+                        <span>STATUS</span>
+                        <strong>READY</strong>
+                    </div>
+
+                </div>
+
             </div>
 
         </section>
 
 
-        <!-- SYSTEM ANALYSIS -->
+
+        <!-- =====================================
+             ANALYSIS
+        ====================================== -->
+
         <section class="analysis-panel">
 
-            <h2>SYSTEM ANALYSIS</h2>
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        MARKET ANALYSIS
+                    </span>
+
+                    <h2>
+                        Trading Intelligence
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="analysis-grid">
+
+
+                <div class="analysis-card">
+
+                    <span>DIGIT FREQUENCY</span>
+
+                    <strong>
+                        —
+                    </strong>
+
+                    <small>
+                        Awaiting market data
+                    </small>
+
+                </div>
+
+
+                <div class="analysis-card">
+
+                    <span>EVEN / ODD</span>
+
+                    <strong>
+                        —
+                    </strong>
+
+                    <small>
+                        Awaiting market data
+                    </small>
+
+                </div>
+
+
+                <div class="analysis-card">
+
+                    <span>OVER / UNDER</span>
+
+                    <strong>
+                        —
+                    </strong>
+
+                    <small>
+                        Awaiting market data
+                    </small>
+
+                </div>
+
+
+                <div class="analysis-card">
+
+                    <span>MATCH / DIFFER</span>
+
+                    <strong>
+                        —
+                    </strong>
+
+                    <small>
+                        Awaiting market data
+                    </small>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+             PERFORMANCE
+        ====================================== -->
+
+        <section class="performance-panel">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        PERFORMANCE
+                    </span>
+
+                    <h2>
+                        Trader Metrics
+                    </h2>
+
+                </div>
+
+            </div>
+
 
             <div class="stats-grid">
 
+
                 <div class="stat">
-                    <span>DISCIPLINE</span>
-                    <strong>91%</strong>
+
+                    <span>
+                        DISCIPLINE
+                    </span>
+
+                    <strong>
+                        91%
+                    </strong>
+
                     <div class="progress">
                         <div style="width:91%"></div>
                     </div>
+
                 </div>
 
+
                 <div class="stat">
-                    <span>RISK CONTROL</span>
-                    <strong>82%</strong>
+
+                    <span>
+                        RISK CONTROL
+                    </span>
+
+                    <strong>
+                        82%
+                    </strong>
+
                     <div class="progress">
                         <div style="width:82%"></div>
                     </div>
+
                 </div>
 
+
                 <div class="stat">
-                    <span>CONSISTENCY</span>
-                    <strong>74%</strong>
+
+                    <span>
+                        CONSISTENCY
+                    </span>
+
+                    <strong>
+                        74%
+                    </strong>
+
                     <div class="progress">
                         <div style="width:74%"></div>
                     </div>
+
                 </div>
 
             </div>
@@ -165,116 +544,243 @@
         </section>
 
 
-        <!-- RANKING -->
-        <section class="ranking-panel">
 
-            <h2>CLASS RANKING</h2>
+        <!-- =====================================
+             SYSTEM STATUS
+        ====================================== -->
 
-            <div class="ranking-row">
-                <span>#01</span>
-                <span>A-07</span>
-                <strong>96.8</strong>
+        <section class="system-message-panel">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        EXECUTION STATUS
+                    </span>
+
+                    <h2>
+                        Trading Status
+                    </h2>
+
+                </div>
+
             </div>
 
-            <div class="ranking-row">
-                <span>#02</span>
-                <span>A-03</span>
-                <strong>94.2</strong>
-            </div>
 
-            <div class="ranking-row">
-                <span>#03</span>
-                <span>A-11</span>
-                <strong>91.7</strong>
-            </div>
+            <div id="systemMessage">
 
-            <div class="ranking-row current-player">
-                <span>#07</span>
-                <span>A-01 — YOU</span>
-                <strong>86.4</strong>
+                <p>
+                    SYSTEM READY
+                </p>
+
+                <p>
+                    Trading workspace initialized.
+                </p>
+
+                <p>
+                    Waiting for trade execution...
+                </p>
+
             </div>
 
         </section>
-        <!-- SYSTEM MESSAGE -->
-<section class="system-message-panel">
-
-    <h2>◈ SYSTEM MESSAGE</h2>
-
-    <div id="systemMessage">
-        SYSTEM READY...
-    </div>
-
-</section>
-        <!-- TRADE HISTORY -->
-<section class="history-panel">
-
-    <h2>◈ TRADE HISTORY</h2>
-
-    <div id="tradeHistory">
-
-        <div class="history-header">
-    <span>#</span>
-    <span>CONTRACT</span>
-    <span>ACTION</span>
-    <span>DIGIT</span>
-    <span>STAKE</span>
-    <span>RESULT</span>
-    <span>P/L</span>
-</div>        
-
-    </div>
-    <div class="result-controls">
-
-    <button id="winButton">MARK WIN</button>
-
-    <button id="lossButton">MARK LOSS</button>
-
-</div>
-
-</section>
-        
 
 
-        <!-- QUESTS -->
-        <section class="quest-panel">
 
-            <h2>◈ DAILY QUEST</h2>
+        <!-- =====================================
+             TRADE HISTORY
+        ====================================== -->
 
-            <p>✓ Complete trading plan</p>
+        <section class="history-panel">
 
-            <p>□ Complete 3 planned trades <b>+100 XP</b></p>
+            <div class="section-heading">
 
-            <p>□ Record every trade <b>+150 XP</b></p>
+                <div>
 
-            <div class="xp">
+                    <span class="section-label">
+                        TRANSACTIONS
+                    </span>
 
-                <span>XP 2,450 / 3,000</span>
+                    <h2>
+                        Trade History
+                    </h2>
 
-                <div class="xp-bar">
-                    <div></div>
+                </div>
+
+            </div>
+
+
+            <div id="tradeHistory">
+
+                <div class="history-header">
+
+                    <span>#</span>
+
+                    <span>CONTRACT</span>
+
+                    <span>ACTION</span>
+
+                    <span>DIGIT</span>
+
+                    <span>STAKE</span>
+
+                    <span>RESULT</span>
+
+                    <span>P/L</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="result-controls">
+
+                <button id="winButton">
+                    MARK WIN
+                </button>
+
+                <button id="lossButton">
+                    MARK LOSS
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+             RISK MANAGEMENT
+        ====================================== -->
+
+        <section class="risk-panel">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        RISK MANAGEMENT
+                    </span>
+
+                    <h2>
+                        Account Protection
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="risk-grid">
+
+
+                <div>
+
+                    <span>STAKE RISK</span>
+
+                    <strong>
+                        12%
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>SESSION TARGET</span>
+
+                    <strong>
+                        $5.00
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>LOSS LIMIT</span>
+
+                    <strong>
+                        $2.00
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>RISK STATUS</span>
+
+                    <strong class="safe">
+                        CONTROLLED
+                    </strong>
+
                 </div>
 
             </div>
 
         </section>
 
+
+
+        <!-- =====================================
+             FOOTER
+        ====================================== -->
 
         <footer>
 
-            <span>SYSTEM STATUS: ONLINE</span>
+            <div>
+
+                <strong>
+                    TRADECORE
+                </strong>
+
+                <span>
+                    Professional Trading Workspace
+                </span>
+
+            </div>
+
 
             <nav>
-                <a href="#">RANKING</a>
-                <a href="#">STATS</a>
-                <a href="#">JOURNAL</a>
-                <a href="#">QUESTS</a>
-                <a href="#">LEVEL</a>
+
+                <a href="#">
+                    Dashboard
+                </a>
+
+                <a href="#">
+                    Markets
+                </a>
+
+                <a href="#">
+                    Analysis
+                </a>
+
+                <a href="#">
+                    Journal
+                </a>
+
+                <a href="#">
+                    Risk
+                </a>
+
             </nav>
+
+
+            <span class="footer-status">
+                ● PLATFORM ONLINE
+            </span>
 
         </footer>
 
     </main>
 
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
 
     <script src="script.js"></script>
 
