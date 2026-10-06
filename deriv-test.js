@@ -12,6 +12,8 @@ const latestTickDisplay = document.getElementById("latestTick");
 const tickCountDisplay = document.querySelector(".tick-count");
 const digitFrequencyValue = document.getElementById("digitFrequencyValue");
 const digitFrequencyStatus = document.getElementById("digitFrequencyStatus");
+const evenOddValue = document.getElementById("evenOddValue");
+const evenOddStatus = document.getElementById("evenOddStatus");
 
 const marketChart = document.getElementById("marketChart");
 const chartContext = marketChart ? marketChart.getContext("2d") : null;
@@ -132,6 +134,57 @@ function updateDigitFrequency() {
             "Based on " + marketTickHistory.length + " ticks";
     }
 }
+function updateEvenOdd() {
+
+    if (!evenOddValue || marketTickHistory.length === 0) {
+        return;
+    }
+
+    let evenCount = 0;
+    let oddCount = 0;
+
+    marketTickHistory.forEach(function (digit) {
+
+        if (digit % 2 === 0) {
+            evenCount++;
+        } else {
+            oddCount++;
+        }
+
+    });
+
+    const total = marketTickHistory.length;
+
+    const evenPercentage =
+        (evenCount / total) * 100;
+
+    const oddPercentage =
+        (oddCount / total) * 100;
+
+    if (evenCount > oddCount) {
+
+        evenOddValue.textContent =
+            "EVEN " + evenPercentage.toFixed(1) + "%";
+
+    } else if (oddCount > evenCount) {
+
+        evenOddValue.textContent =
+            "ODD " + oddPercentage.toFixed(1) + "%";
+
+    } else {
+
+        evenOddValue.textContent =
+            "50 / 50";
+    }
+
+    if (evenOddStatus) {
+
+        evenOddStatus.textContent =
+            "Even " + evenPercentage.toFixed(1) +
+            "% · Odd " + oddPercentage.toFixed(1) +
+            "% · " + total + " ticks";
+    }
+}
 
 // =========================================================
 // DERIV CONNECTION
@@ -227,6 +280,7 @@ derivSocket.onmessage = function (event) {
     }
 updateTickHistory();
 updateDigitFrequency();
+ updateEvenOdd();   
     // =====================================================
     // SYSTEM STATUS
     // =====================================================
