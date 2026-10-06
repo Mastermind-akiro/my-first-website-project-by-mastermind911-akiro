@@ -1,4 +1,4 @@
-```javascript
+
 // TRADECORE LIVE MARKET FEED
 
 const derivSocket = new WebSocket(
@@ -86,4 +86,4 @@ derivSocket.onclose = function () {
             "<p>Connection to market data closed.</p>";
     }
 };
-```
+
